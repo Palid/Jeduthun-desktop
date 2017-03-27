@@ -175,19 +175,20 @@
     "webpack-merge": "^2.4.0"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "electron-debug": "^1.1.0",
     "extract-text-webpack-plugin": "^2.0.0",
     "font-awesome": "^4.7.0",
+    "immutability-helper": "^2.1.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-hot-loader": "3.0.0-beta.6",
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
+    "request": "^2.81.0",
     "source-map-support": "^0.4.10",
-    "immutability-helper": "^2.1.2",
-    "youtube-search": "^1.0.8",
-    "classnames": "^2.2.5"
+    "youtube-search": "^1.0.8"
   },
   "devEngines": {
     "node": ">=6.x",

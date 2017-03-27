@@ -2,6 +2,7 @@ import albumReducer from './albumReducer'
 import { change } from './playerReducer'
 import searchYoutube from 'youtube-search'
 import update from 'immutability-helper'
+import fileDownload from './../utils/fileDownload'
 
 const SEARCH_QUERY = 'SEARCH_QUERY'
 const ADD_ALBUM = 'ADD_ALBUM'
@@ -38,15 +39,21 @@ export function addToPlaylistAction (album) {
   // 2.) Save to blob (cache)
   // 3.) Initiate player if not playing
   return dispatch => {
-    console.log(`www.youtubeinmp3.com/fetch/?format=JSON&video=${album.link}`)
-    fetch(`www.youtubeinmp3.com/fetch/?format=JSON&video=${album.link}`)
-    .then((response) => {
+    fileDownload({
+        remoteFile: `http://www.youtubeinmp3.com/fetch/?video=${album.link}`,
+        localFile: `./library/${album.title}.mp3`,
+        onProgress: function (received,total){
+            var percentage = (received * 100) / total;
+            console.log(percentage + "% | " + received + " bytes out of " + total + " bytes.");
+        }
+    }).then(function() {
       let responseObject = {
         title: album.title,
         file: response.body
       }
       dispatch(change(responseObject))
-    }) 
+      console.log("File succesfully downloaded");
+    })
   }
 }
 
