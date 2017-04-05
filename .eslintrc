@@ -13,7 +13,7 @@
     "generator-star-spacing": "off",
     "import/no-unresolved": "error",
     "import/no-extraneous-dependencies": "off",
-    "no-console": "off",
+    "no-console": "1",
     "no-use-before-define": "off",
     "no-multi-assign": "off",
     "promise/param-names": "error",

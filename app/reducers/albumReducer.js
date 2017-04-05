@@ -1,3 +1,4 @@
+// @flow
 import update from 'immutability-helper'
 
 // TODO:

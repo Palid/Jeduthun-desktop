@@ -94,3 +94,27 @@ export const playerDefaults = {
     prev: ''
   }
 }
+
+export const playlistDefaults = {
+  order: 'titleDes',
+  tracks: []
+}
+
+export const playlistOrdering = [
+  {
+    label: 'Title ascending',
+    value: 'titleAsc'
+  },
+  {
+    label: 'Title descending',
+    value: 'titleDes'
+  },
+  {
+    label: 'Last modified date',
+    value: 'modified'
+  },
+  {
+    label: 'Created date',
+    value: 'created'
+  }
+]

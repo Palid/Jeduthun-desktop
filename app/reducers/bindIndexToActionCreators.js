@@ -1,3 +1,4 @@
+// @flow
 const transformObjectValues = (obj, fn) => {
   var transformed = {}
   Object.keys(obj).forEach(key => {

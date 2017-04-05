@@ -15,6 +15,7 @@ import {
 class PlayerContainer extends Component {
   constructor(props) {
     super(props)
+    this.handlePlay = this.handlePlay.bind(this)
   }
 
   prepareAudioObject() {
@@ -26,12 +27,24 @@ class PlayerContainer extends Component {
     }
   }
 
+  handlePlay() {
+    const props = this.props
+    const currentState = {
+      drive: props.drive,
+      memory: props.memory,
+      option: props.options,
+      state: props.state,
+    }
+    this.props.dispatch(start(currentState))
+  }
+
   render() { 
     const audioObject = this.props.drive.file ? this.prepareAudioObject() : null
     return(
     <div className='container'>
       <h2>Player</h2>
       {audioObject}
+      <button onClick={this.handlePlay}>Play</button>
     </div>
   )}
 }
