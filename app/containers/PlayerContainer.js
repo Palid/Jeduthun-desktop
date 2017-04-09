@@ -20,9 +20,8 @@ class PlayerContainer extends Component {
 
   prepareAudioObject() {
     if(this.props.drive.file){
-      let file = URL.createObjectURL(this.props.drive.file)
       return (
-        <audio controls src={file}></audio>
+        <audio controls src={`.${this.props.drive.file}`}></audio>
       )   
     }
   }
@@ -44,7 +43,6 @@ class PlayerContainer extends Component {
     <div className='container'>
       <h2>Player</h2>
       {audioObject}
-      <button onClick={this.handlePlay}>Play</button>
     </div>
   )}
 }

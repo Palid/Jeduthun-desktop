@@ -1,5 +1,6 @@
 import { playlistDefaults } from './../statics/TypesAndDefaults'
 import update from 'immutability-helper'
+import trackReducer from './trackReducer'
 
 const ADD = 'playlist/ADD'
 const DELETE = 'playlist/DELETE'
@@ -30,12 +31,21 @@ export const orderChange = (order) => ({
   order
 })
 
+
+// TODO:
+// Load all saved tracks from pointed folder
 const reducer = (state = playlistDefaults, action) => {
+  if(action.type.startsWith('tracks/')) {
+    return update(state, {
+      tracks: {$set: [
+        ...state.tracks.slice(0, action.index),
+        trackReducer(state.tracks[action.index], action),
+        ...state.tracks.slice(action.index + 1)
+      ]}
+    })
+  }
   switch(action.type) {
     case ADD:
-      console.log(action.track)
-      // TODO:
-      // Prepare object for the playlist (currentState:Playing etc)
       return update(state, {tracks: {$push: [action.track]}})
       break
     case DELETE:

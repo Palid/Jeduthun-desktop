@@ -1,6 +1,15 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import bindIndexToActionCreators from '../reducers/bindIndexToActionCreators'
 
+import {
+  playTrackAction,
+  stopTrackAction,
+  downloadTrackAction,
+  saveTrackAction,
+  checkTrackStatusAction
+} from '../reducers/trackReducer'
 import {
   add,
   deleteTrack,
@@ -8,6 +17,7 @@ import {
   play,
   orderChange
 } from '../reducers/playlistReducer'
+import TrackComponent from '../components/TrackComponent'
 
 class PlaylistContainer extends Component {
   constructor(props) {
@@ -19,7 +29,8 @@ class PlaylistContainer extends Component {
       <div className='container'>
         <h2>Playlist</h2>
         {this.props.tracks.map((item, index) =>
-          <h4>{item.title}</h4>
+          <TrackComponent track={item} key={index} id={index}
+          {...trackDispatchProperties(index)(this.props.dispatch)}/>
         )}
       </div>
   )}
@@ -28,5 +39,19 @@ class PlaylistContainer extends Component {
 const mapStateToProps = (state) => {
   return state.playlistReducer
 }
+
+const trackDispatchProperties =
+  index =>
+    dispatch => bindActionCreators(
+        bindIndexToActionCreators({
+          playTrackAction,
+          stopTrackAction,
+          downloadTrackAction,
+          saveTrackAction,
+          checkTrackStatusAction,
+          move,
+          deleteTrack
+        }, index),
+      dispatch)
 
 export default connect(mapStateToProps)(PlaylistContainer)

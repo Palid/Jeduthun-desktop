@@ -1,9 +1,8 @@
 // @flow
-import albumReducer from './albumReducer'
+import trackReducer from './trackReducer'
 import { add } from './playlistReducer'
 import searchYoutube from 'youtube-search'
 import update from 'immutability-helper'
-import fileDownload from './../utils/fileDownload'
 
 const SEARCH_QUERY = 'SEARCH_QUERY'
 const ADD_ALBUM = 'ADD_ALBUM'
@@ -35,29 +34,9 @@ export const updateListSettingsAction = (options) => ({
 })
 
 export function addToPlaylistAction (album) {
-  // TODO:
-  // addToPlaylist should just dispatch event for the playlist with album object
-  // then there should be an action always dispatched when new element arrives in the playlist
-  // should start download and set it up to be playable in the album store
-  // then dispatch start playing.
-  // Build playlist first, then go on with it^
+  album.status = 'NEW'
   return dispatch => {
-    const src = `./library/${album.title}.mp3`
-    fileDownload({
-        remoteFile: `http://www.youtubeinmp3.com/fetch/?video=${album.link}`,
-        localFile: src,
-        onProgress: function (received,total){
-            var percentage = (received * 100) / total;
-            console.log(percentage + "% | " + received + " bytes out of " + total + " bytes.");
-        }
-    }).then(function() {
-      let responseObject = {
-        title: album.title,
-        file: src
-      }
-      dispatch(add(responseObject))
-      console.log("File succesfully downloaded");
-    })
+    dispatch(add(album))
   }
 }
 

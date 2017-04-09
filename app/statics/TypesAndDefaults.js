@@ -6,6 +6,14 @@ export const albumObject = {
   link: ''
 }
 
+export const albumStatus = [
+  'NEW',
+  'PLAYING',
+  'PAUSED',
+  'READY',
+  'ERROR'
+]
+
 export const youtubeSearchConfig = {
   maxResults: 10,
   key: 'AIzaSyDSYCcZfNICbkuweKxnrpCLTse_nO_FFgA',

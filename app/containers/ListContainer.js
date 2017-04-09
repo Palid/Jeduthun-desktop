@@ -1,20 +1,12 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
-import bindIndexToActionCreators from '../reducers/bindIndexToActionCreators'
 import {
   addAlbumAction,
   searchQueryAction,
   loadResultsPageAction,
   addToPlaylistAction
 } from '../reducers/listReducer'
-import {
-  playAlbumAction,
-  stopAlbumAction,
-  downloadAlbumAction,
-  saveAlbumAction
-} from '../reducers/albumReducer'
 import AlbumContainer from '../components/AlbumComponent'
 import SearchContainer from './SearchContainer'
 
@@ -22,12 +14,16 @@ class ListContainer extends Component {
   constructor(props) {
     super(props)
     this.handleSearch = this.handleSearch.bind(this)
+    this.handleAddingAlbum = this.handleAddingAlbum.bind(this)
   }
   handleSearch(query, options) {
     this.props.dispatch(searchQueryAction(query, options))
   }
   handlePageLoad(query, options, pageToken) {
     this.props.dispatch(loadResultsPageAction(query, options, pageToken))
+  }
+  handleAddingAlbum(album) {
+    this.props.dispatch(addToPlaylistAction(album))
   }
   render() { return(
     <div className='container'>
@@ -37,8 +33,7 @@ class ListContainer extends Component {
         prevPageToken={this.props.listConfiguration.prevPageToken}
       />
       {this.props.albums.map((value, index) => 
-        <AlbumContainer album={value} key={index}
-          {...albumDispatchProperties(index)(this.props.dispatch)}/>
+        <AlbumContainer album={value} key={index} addToPlaylistAction={this.handleAddingAlbum}/>
       )}
     </div>
   )}
@@ -47,17 +42,5 @@ class ListContainer extends Component {
 const mapStateToProps = (state) => {
   return state.listReducer
 }
-
-const albumDispatchProperties =
-  index =>
-    dispatch => bindActionCreators(
-        bindIndexToActionCreators({
-          playAlbumAction,
-          stopAlbumAction,
-          downloadAlbumAction,
-          saveAlbumAction,
-          addToPlaylistAction
-        }, index),
-      dispatch)
 
 export default connect(mapStateToProps)(ListContainer)

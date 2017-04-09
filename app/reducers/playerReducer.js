@@ -47,7 +47,7 @@ const reducer = (state = playerDefaults, action) => {
       break
     case CHANGE:
       return update(state, {
-        drive: {$merge: action.album}
+        drive: {$set: action.album}
       })
       break
     default:
