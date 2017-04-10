@@ -1,7 +1,7 @@
 // @flow
 import update from 'immutability-helper'
 import { change } from './playerReducer'
-import fileDownload from './../utils/fileDownload'
+import {fileDownload, getAudioPath} from '../utils/fileUtils'
 
 const PLAY_TRACK = 'tracks/PLAY_TRACK'
 const DOWNLOAD_TRACK = 'tracks/DOWNLOAD_TRACK'
@@ -32,7 +32,7 @@ export function checkTrackStatusAction (track, index) {
 }
 export function downloadTrackAction (track, index) {
   return dispatch => {
-    const src = `./library/${track.title}.mp3`
+    const src = getAudioPath(`${track.title}.mp3`)
     fileDownload({
         remoteFile: `http://www.youtubeinmp3.com/fetch/?video=${track.link}`,
         localFile: src,

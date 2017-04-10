@@ -21,8 +21,8 @@ class PlayerContainer extends Component {
   prepareAudioObject() {
     if(this.props.drive.file){
       return (
-        <audio controls src={`.${this.props.drive.file}`}></audio>
-      )   
+        <audio controls src={this.props.drive.file}></audio>
+      )
     }
   }
 
@@ -37,7 +37,7 @@ class PlayerContainer extends Component {
     this.props.dispatch(start(currentState))
   }
 
-  render() { 
+  render() {
     const audioObject = this.props.drive.file ? this.prepareAudioObject() : null
     return(
     <div className='container'>
