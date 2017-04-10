@@ -13,7 +13,7 @@
     "generator-star-spacing": "off",
     "import/no-unresolved": "error",
     "import/no-extraneous-dependencies": "off",
-    "no-console": "1",
+    "no-console": "0",
     "no-use-before-define": "off",
     "no-multi-assign": "off",
     "promise/param-names": "error",
@@ -23,7 +23,7 @@
     "react/jsx-no-bind": "off",
     "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
     "react/prefer-stateless-function": "off",
-    "flowtype-errors/show-errors": "error"
+    "flowtype-errors/show-errors": "0"
   },
   "plugins": [
     "flowtype",

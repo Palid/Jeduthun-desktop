@@ -3,21 +3,13 @@ import trackReducer from './trackReducer'
 import { add } from './playlistReducer'
 import searchYoutube from 'youtube-search'
 import update from 'immutability-helper'
+import { getYtLength } from '../utils/fileUtils'
+import { youtubeSearchConfig } from '../statics/TypesAndDefaults'
 
 const SEARCH_QUERY = 'SEARCH_QUERY'
 const ADD_ALBUM = 'ADD_ALBUM'
 const CLEAR_LIST = 'CLEAR_LIST'
 const UPDATE_LIST_SETTINGS = 'UPDATE_LIST_SETTINGS'
-
-function prepareAlbum(object) {
-  return {
-    cover: object.thumbnails.high,
-    id: object.id,
-    title: object.title,
-    description: object.description,
-    link: object.link
-  }
-}
 
 export const addAlbumAction = (album) => ({
   type: ADD_ALBUM,
@@ -40,6 +32,22 @@ export function addToPlaylistAction (album) {
   }
 }
 
+export function prepareAlbumAction (album) {
+  return dispatch => {
+    getYtLength(album.id, youtubeSearchConfig.key)
+    .then(function(data){
+      console.log(data)
+      dispatch(addAlbumAction({
+        cover: album.thumbnails.high,
+        id: album.id,
+        title: album.title,
+        description: album.description,
+        link: album.link
+      }))
+    })
+  }
+}
+
 export function searchQueryAction (query, options) {
   return dispatch => {
     dispatch(clearListAction())
@@ -47,7 +55,7 @@ export function searchQueryAction (query, options) {
       if(err) return console.log(err)
       dispatch(updateListSettingsAction(pageInfo))
       results.forEach(function (item, i) {
-        dispatch(addAlbumAction(item))
+        dispatch(prepareAlbumAction(item))
       })
     })
   }
@@ -71,7 +79,7 @@ const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case ADD_ALBUM:
       return update(state, {
-        albums: {$push: [prepareAlbum(action.album)]}
+        albums: {$push: [action.album]}
       })
     case SEARCH_QUERY:
       return {

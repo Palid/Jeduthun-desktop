@@ -1,0 +1,5 @@
+-Build Track component based on the album component
+-Clean up album component
+-Clean up naming in playlist component
+-add length of track
+-validate album title for filename:

@@ -47,6 +47,40 @@ function fileDownload(configuration) {
   });
 }
 
+function ytDurationToStr(ytDuration) {
+  var reptms = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/;
+  var hours = 0, minutes = 0, seconds = 0, totalseconds;
+
+  if (reptms.test(ytDuration)) {
+    var matches = reptms.exec(ytDuration);
+    if (matches[1]) hours = Number(matches[1]);
+    if (matches[2]) minutes = Number(matches[2]);
+    if (matches[3]) seconds = Number(matches[3]);
+    totalseconds = hours * 3600  + minutes * 60 + seconds;
+  }
+
+  if (hours > 0){
+    return hours + ":" + minutes + ":" + seconds;
+  }
+  else {
+    return minutes + ":" + seconds;
+  }
+}
+
+function parseJSON(response) {
+  return response.json()
+}
+
+function getYtLength(id, key) {
+  return fetch(`https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails&id=${id}&key=${key}`)
+  .then(parseJSON)
+  .then(function(body){
+    console.log(body)
+    return ytDurationToStr(body.items[0].contentDetails.duration)
+  })
+  .catch(err => console.error(err.message))
+}
+
 const getAppRoutePath = _ => path.resolve(path.dirname(global.require.main.filename), '../')
 
 const getAudioPath = audioPath => path.resolve(getAppRoutePath(), LIBRARY_PATH, audioPath)
@@ -54,5 +88,6 @@ const getAudioPath = audioPath => path.resolve(getAppRoutePath(), LIBRARY_PATH, 
 export default {
   fileDownload,
   getAppRoutePath,
-  getAudioPath
+  getAudioPath,
+  getYtLength
 }
