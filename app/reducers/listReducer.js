@@ -35,14 +35,14 @@ export function addToPlaylistAction (album) {
 export function prepareAlbumAction (album) {
   return dispatch => {
     getYtLength(album.id, youtubeSearchConfig.key)
-    .then(function(data){
-      console.log(data)
+    .then(function(duration){
       dispatch(addAlbumAction({
         cover: album.thumbnails.high,
         id: album.id,
         title: album.title,
         description: album.description,
-        link: album.link
+        link: album.link,
+        duration: duration
       }))
     })
   }
@@ -53,7 +53,7 @@ export function searchQueryAction (query, options) {
     dispatch(clearListAction())
     searchYoutube(query, options, function(err, results, pageInfo){
       if(err) return console.log(err)
-      dispatch(updateListSettingsAction(pageInfo))
+      dispatch(updateListSettingsAction({pageInfo: pageInfo, query: query}))
       results.forEach(function (item, i) {
         dispatch(prepareAlbumAction(item))
       })
@@ -63,7 +63,10 @@ export function searchQueryAction (query, options) {
 
 export const INITIAL_STATE = {
   albums: [],
-  listConfiguration: {},
+  listConfiguration: {
+    query: '',
+    pageInfo: {}
+  },
 }
 
 const reducer = (state = INITIAL_STATE, action) => {

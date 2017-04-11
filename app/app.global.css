@@ -1,37 +1,31 @@
 @import "~font-awesome/css/font-awesome.css";
 
+@font-face {
+    font-family: 'kayak_sanslight';
+    src: url('./media/kayak_sans_light-webfont.woff2') format('woff2'),
+         url('./media/kayak_sans_light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'kayak_sansbold';
+    src: url('./media/kayak_sans_bold-webfont.woff2') format('woff2'),
+         url('./media/kayak_sans_bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'kayak_sansregular';
+    src: url('./media/kayak_sans_regular-webfont.woff2') format('woff2'),
+         url('./media/kayak_sans_regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
-  position: relative;
-  color: white;
-  background-color: #232C39;
-  background-image: linear-gradient(45deg, rgba(0, 216, 255, .5) 10%, rgba(0, 1, 127, .7));
-  font-family: Arial, Helvetica, Helvetica Neue, serif;
-}
-
-h2 {
-  margin: 0;
-  font-size: 2.25rem;
-  font-weight: bold;
-  letter-spacing: -.025em;
-  color: #fff;
-}
-
-p {
-  font-size: 24px;
-}
-
-li {
-  list-style: none;
-}
-
-a {
-  color: white;
-  opacity: .75;
-  text-decoration: none;
-}
-
-a:hover {
-  opacity: 1;
-  text-decoration: none;
-  cursor: pointer;
+  color: #8c8c8c;
+  background-color: white;
+  font-family: 'kayak_sansregular', Arial, Helvetica, Helvetica Neue, serif;
 }
