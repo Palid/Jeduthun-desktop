@@ -1,0 +1,37 @@
+.pagination {
+  font-family:'kayak_sansbold';
+}
+.pagination button {
+  width: 50%;
+  background-color: white;
+  border: 1px solid #efefef;
+  color: #8C8C8C;
+  height: 50px;
+  line-height: 50px;
+  position: relative;
+  padding: 0 15px;
+  cursor: pointer;
+}
+.pagination button:hover {
+  background-color: #c1c960;
+  color: #88802b;
+}
+.pagination button:hover svg polygon {
+  fill: #88802b;
+}
+.pagination button:first-child {
+  text-align: right;
+}
+.pagination button:last-child {
+  text-align: left;
+}
+.pagination button svg {
+  position: absolute;
+  top: 13px;
+}
+.pagination button:first-child svg {
+  right: 60px;
+}
+.pagination button:last-child svg {
+  left: 60px;
+}
