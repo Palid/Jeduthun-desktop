@@ -81,7 +81,7 @@ export const searchDefaults = {
   videoLength: 'short',
   videoQuality: 'any',
   resultsOrder: 'relevance',
-  resultsPerPage: '10'
+  resultsPerPage: '12'
 }
 
 export const playerDefaults = {

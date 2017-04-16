@@ -1,3 +1,59 @@
+.album {
+  display: inline-table;
+  box-sizing: border-box;
+  position: relative;
+  text-align: center;
+  width: 140px;
+  height: 140px;
+  border: 1px solid #efefef;
+  padding: 15px 5px 0;
+}
+.album:hover {
+  border-color: #e2e2e2;
+}
 .album img {
-  width: 100px;
+  max-width: 62px;
+  height: 62px;
+  border: 1px solid #efefef;
+  background-color: #fbfbfb;
+}
+.album img:hover {
+  border-color: #c1c960;
+}
+.album h2 {
+  font-family:'kayak_sansbold';
+  font-size:12px;
+  height: 28px;
+  color:#8c8c8c;
+}
+.albumButton {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #e2e2e2;
+}
+.albumButton button {
+  position: absolute;
+  font-family:'kayak_sansbold';
+  width: 70%;
+  height: 70%;
+  top: 13.5%;
+  left: 14%;
+  background-color: #c1c960;
+  color: #88802b;
+  border: none;
+  outline: none;
+  -webkit-box-shadow: 5px 5px 0px 0px rgba(136,128,43,1);
+  -moz-box-shadow: 5px 5px 0px 0px rgba(136,128,43,1);
+  box-shadow: 5px 5px 0px 0px rgba(136,128,43,1);
+  cursor: pointer;
+}
+.album:hover .albumButton {
+  display: inline-block;
+}
+.album:hover h2 {
+  color: #c1c960;
 }

@@ -13,6 +13,7 @@ import {
 import AlbumContainer from '../components/AlbumComponent'
 import SearchContainer from './SearchContainer'
 import PaginationComponent from '../components/PaginationComponent'
+import styles from './ListContainer.css'
 
 class ListContainer extends Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class ListContainer extends Component {
     this.props.dispatch(addToPlaylistAction(album))
   }
   render() { return(
-    <div className='container'>
+    <div className={styles.list}>
       <SearchContainer 
         searchQueryAction={this.handleSearch}
         nextPageToken={this.props.listConfiguration.pageInfo.nextPageToken}

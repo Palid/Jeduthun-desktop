@@ -1,0 +1,5 @@
+.list {
+  display: table;
+  max-width: 420px;
+  border: 1px solid #efefef;
+}
