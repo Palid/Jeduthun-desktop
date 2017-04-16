@@ -11,6 +11,7 @@ import {
   prev,
   change
 } from '../reducers/playerReducer'
+import styles from './PlayerContainer.css'
 
 class PlayerContainer extends Component {
   constructor(props) {
@@ -40,7 +41,7 @@ class PlayerContainer extends Component {
   render() {
     const audioObject = this.props.drive.file ? this.prepareAudioObject() : null
     return(
-    <div className='container'>
+    <div className={styles.player}>
       <h2>Player</h2>
       {audioObject}
     </div>

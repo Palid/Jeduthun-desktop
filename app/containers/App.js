@@ -8,9 +8,13 @@ class App extends Component {
   render() {
     return (
       <div>
-        <PlayerContainer/>
-        <PlaylistContainer/>
-        <ListContainer/>
+        <div className="main-wrapper__left">
+          <ListContainer/>
+        </div>
+        <div className="main-wrapper__right">
+          <PlayerContainer/>
+          <PlaylistContainer/>
+        </div>
       </div>
     );
   }

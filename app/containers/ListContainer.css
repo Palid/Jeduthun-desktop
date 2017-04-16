@@ -1,5 +1,8 @@
 .list {
+  float: left;
   display: table;
-  max-width: 420px;
+  width: 100%;
   border: 1px solid #efefef;
+  text-align: center;
+  background-color: #e2e2e2;
 }

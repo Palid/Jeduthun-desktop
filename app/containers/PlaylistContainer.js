@@ -18,6 +18,7 @@ import {
   orderChange
 } from '../reducers/playlistReducer'
 import TrackComponent from '../components/TrackComponent'
+import styles from './PlaylistContainer.css'
 
 class PlaylistContainer extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class PlaylistContainer extends Component {
 
   render() { 
     return (
-      <div className='container'>
+      <div className={styles.playlist}>
         <h2>Playlist</h2>
         {this.props.tracks.map((item, index) =>
           <TrackComponent track={item} key={index} id={index}

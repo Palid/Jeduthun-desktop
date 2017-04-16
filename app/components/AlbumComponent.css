@@ -7,6 +7,7 @@
   height: 140px;
   border: 1px solid #efefef;
   padding: 15px 5px 0;
+  background-color: white;
 }
 .album:hover {
   border-color: #e2e2e2;
