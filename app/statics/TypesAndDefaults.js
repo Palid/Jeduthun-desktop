@@ -23,6 +23,10 @@ export const youtubeSearchConfig = {
 
 export const videoLengths = [
   {
+    label: 'Any',
+    value: 'any'
+  },
+  {
     label: 'Short',
     value: 'short'
   },

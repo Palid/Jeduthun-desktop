@@ -8,7 +8,7 @@
 }
 .search h3 {
   padding: 10px 0 5px 0;
-  margin: 0px;
+  margin: 0 0 5px 0;
   border-bottom: 1px dashed #cdcbc2;
 }
 .search .formPart {
@@ -57,4 +57,17 @@
 
 .search .formPart:nth-child(even) input {
   border-color: #cdcbc2;
+}
+
+.search .buttonSubmit {
+  background-color: #c1c960;
+  font-family: 'kayak_sansbold';
+  color: #88802b;
+  font-size: 14px;
+  border:1px solid #88802b;
+}
+
+.search .buttonSubmit:hover {
+  background-color: #88802b;
+  color: white;
 }

@@ -39,9 +39,9 @@ export function downloadTrackAction (track, index) {
         onProgress: function (received){
             dispatch(setDownloadStatusAction(received, index))
         }
-    }).then(function() {
+    }).then(function(filePath) {
       let responseObject = {
-        file: src,
+        file: filePath,
         status: 'READY'
       }
       dispatch(saveTrackAction(responseObject, index))

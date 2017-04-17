@@ -128,7 +128,7 @@ class SearchContainer extends React.Component {
               wrapperClass={styles.formPart_SplitHorizontal}
             />
           </div>
-          <input type="submit" value="Submit"/>
+          <input type="submit" value="Submit" className={styles.buttonSubmit}/>
         </form>
         
         <PaginationComponent

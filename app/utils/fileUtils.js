@@ -21,13 +21,9 @@ function fileDownload(configuration) {
       preset: Presets.MP3,
       info: (format, cancel) => {
         console.log('Verify: ' + format.info.downloadSize);
-
-        // Limit download to ~3MB...    
-        if (format.info.downloadSize > 3000000) {
-          cancel();
-        }
       },
       progress: (data) => {
+        console.log(data)
         if (data.indeterminate) {
           console.log(`[${new Date().toUTCString()}] Working...`);
         } else {
@@ -40,7 +36,7 @@ function fileDownload(configuration) {
     pully.download(options)
     .then((results) => {
       console.log(`Download Complete: "${results.path}"`);
-      resolve()
+      resolve(results.path)
     }, err => {
       console.error('Uh oh!', err);
       resolve()
