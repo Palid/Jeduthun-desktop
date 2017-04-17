@@ -82,14 +82,14 @@ export const searchDefaults = {
   stringMain: '',
   stringOr: '',
   stringNot: '',
-  videoLength: 'short',
+  videoLength: 'any',
   videoQuality: 'any',
   resultsOrder: 'relevance',
   resultsPerPage: '12'
 }
 
 export const playerDefaults = {
-  state: 'STOP',
+  status: 'STOP',
   drive: {
     title: '',
     file: ''
@@ -98,7 +98,7 @@ export const playerDefaults = {
     sound: true,
     shuffle: false,
     repeatOne: false,
-    repeatALL: false,
+    repeatAll: false,
     recording: false
   },
   memory: {

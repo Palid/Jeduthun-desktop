@@ -12,7 +12,7 @@ const SAVE_TRACK = 'tracks/SAVE_TRACK'
 
 export function playTrackAction (track, index)  {
   return dispatch => {
-    dispatch(change(track))
+    dispatch(change(track, index))
     dispatch(changeTrackStatusAction('PLAYING', index))
   }
 }
@@ -32,10 +32,8 @@ export function checkTrackStatusAction (track, index) {
 }
 export function downloadTrackAction (track, index) {
   return dispatch => {
-    const src = getAudioPath(`${track.title}.mp3`)
     fileDownload({
         remoteFile: `${track.link}`,
-        localFile: src,
         onProgress: function (received){
             dispatch(setDownloadStatusAction(received, index))
         }

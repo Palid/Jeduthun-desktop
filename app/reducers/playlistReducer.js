@@ -26,6 +26,14 @@ export const play = (track) => ({
   type: PLAY,
   track
 })
+export function getByIndex(index) {
+  return (getState) => {
+    console.log(getState())
+    const { tracks } = getState();
+    console.log(tracks)
+    console.log(tracks[index])
+  };
+}
 export const orderChange = (order) => ({
   type: ORDER_CHANGE,
   order

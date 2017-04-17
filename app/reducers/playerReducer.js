@@ -1,5 +1,6 @@
 import { playerDefaults } from './../statics/TypesAndDefaults'
 import update from 'immutability-helper'
+import { getByIndex } from './playlistReducer'
 
 // TODO:
 // 1.) Modify according to recieved data for album
@@ -12,42 +13,66 @@ const MUTE = 'player/MUTE'
 const OPTIONS_CHANGE = 'player/OPTIONS_CHANGE'
 const CHANGE = 'player/CHANGE'
 
-export const start = (currentState) => ({
+export const start = (newState) => ({
   type: START,
-  currentState
+  newState
 })
-export const stop = (currentState) => ({
+export const stop = (newState) => ({
   type: STOP,
-  currentState
+  newState
 })
-export const pause = (currentState) => ({
+export const pause = (newState) => ({
   type: PAUSE,
-  currentState
+  newState
 })
-export const mute = (currentState) => ({
+export const mute = (newState) => ({
   type: MUTE,
-  currentState
+  newState
 })
 export const optionsChange = (options) => ({
   type: OPTIONS_CHANGE,
   options
 })
-export const change = (album) => ({
+export const change = (album, index) => ({
   type: CHANGE,
-  album
+  album,
+  index
 })
+export function next (index) {
+  return (dispatch, getState) => {
+    const { playlistReducer } = getState();
+    const lastTrack = playlistReducer.tracks.length === index ? true : false
+    let nextTrack = null
+    if(lastTrack){
+      nextTrack = playlistReducer.tracks[0]
+      dispatch(change(nextTrack, 0))
+    } else {
+      nextTrack = playlistReducer.tracks[index]
+      dispatch(change(nextTrack, index))
+    }
+  }
+}
 
 const reducer = (state = playerDefaults, action) => {
   switch(action.type) {
-    case START | STOP | PAUSE:
-      return update(state, {$merge: action.currentState})
+    case START:
+      return update(state, {$merge: {status: action.newState}})
       break
-    case OPTIONS_CHANGE || MUTE:
+    case STOP:
+      return update(state, {$merge: {status: action.newState}})
+      break
+    case PAUSE:
+      return update(state, {$merge: {status: action.newState}})
+      break
+    case MUTE:
+      return update(state, {$merge: {status: action.newState}})
+      break
+    case OPTIONS_CHANGE:
       return update(state, {$merge: {options: action.options}})
       break
     case CHANGE:
       return update(state, {
-        drive: {$set: action.album}
+        drive: {$set: {...action.album, index: action.index}}
       })
       break
     default:

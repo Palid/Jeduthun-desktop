@@ -8,7 +8,6 @@ import {
   mute,
   optionsChange,
   next,
-  prev,
   change
 } from '../reducers/playerReducer'
 import styles from './PlayerContainer.css'
@@ -17,33 +16,88 @@ class PlayerContainer extends Component {
   constructor(props) {
     super(props)
     this.handlePlay = this.handlePlay.bind(this)
+    this.handlePause = this.handlePause.bind(this)
+    this.handleEnd = this.handleEnd.bind(this)
+    this.handleNext = this.handleNext.bind(this)
+    this.handlePrev = this.handlePrev.bind(this)
+    this.toggleRepeatMode = this.toggleRepeatMode.bind(this)
   }
 
   prepareAudioObject() {
     if(this.props.drive.file){
       return (
-        <audio controls src={this.props.drive.file}></audio>
+        <audio
+        controls
+        src={this.props.drive.file}
+        onPlay={this.handlePlay}
+        onPause={this.handlePause}
+        onEnded={this.handleEnd}
+        ref={(ref) => { this.audioEl = ref; }}
+        loop={this.props.options.repeatOne}
+        ></audio>
       )
     }
   }
 
+  componentDidUpdate() {
+    this.audioEl.play()
+  }
+
   handlePlay() {
-    const props = this.props
-    const currentState = {
-      drive: props.drive,
-      memory: props.memory,
-      option: props.options,
-      state: props.state,
+    this.props.dispatch(start('PLAY'))
+  }
+
+  handlePause() {
+    this.props.dispatch(stop('PAUSE'))
+  }
+
+  handleEnd() {
+    if (this.props.options.repeatAll) {
+      this.props.dispatch(next(this.props.drive.index + 1))
     }
-    this.props.dispatch(start(currentState))
+  }
+
+  handleNext() {
+    this.props.dispatch(next(this.props.drive.index + 1))
+  }
+
+  handlePrev() {
+    this.props.dispatch(next(this.props.drive.index - 1))
+  }
+
+  getCurrentRepeatStatus() {
+    const props = this.props
+    if(props.options.repeatOne){
+      return 'repeat one'
+    } else if(props.options.repeatAll){
+      return 'repeat all'
+    } else if(!props.options.repeatOne && !props.options.repeatAll) {
+      return 'no repeat'
+    }
+  }
+
+  toggleRepeatMode() {
+    const props = this.props
+    if(props.options.repeatOne){
+      props.dispatch(optionsChange({...props.options, repeatOne: false, repeatAll: false}))
+    } else if(props.options.repeatAll){
+      props.dispatch(optionsChange({...props.options, repeatOne: true, repeatAll: false}))
+    } else if(!props.options.repeatOne && !props.options.repeatAll) {
+      props.dispatch(optionsChange({...props.options, repeatOne: false, repeatAll: true}))
+    }
   }
 
   render() {
-    const audioObject = this.props.drive.file ? this.prepareAudioObject() : null
+    const props = this.props
+    const audioObject = props.drive.file ? this.prepareAudioObject() : null
+    const repeatStatus = this.getCurrentRepeatStatus()
     return(
     <div className={styles.player}>
       <h2>Player</h2>
       {audioObject}
+      <button onClick={() => this.toggleRepeatMode()}>{repeatStatus}</button>
+      <button onClick={() => this.handleNext()}>Next</button>
+      <button onClick={() => this.handlePrev()}>Prev</button>
     </div>
   )}
 }
