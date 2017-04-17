@@ -52,7 +52,7 @@ export function searchQueryAction (query, options) {
   return dispatch => {
     dispatch(clearListAction())
     searchYoutube(query, options, function(err, results, pageInfo){
-      if(err) return console.log(err)
+      if(err) return console.error(err)
       dispatch(updateListSettingsAction({pageInfo: pageInfo, query: query}))
       results.forEach(function (item, i) {
         dispatch(prepareAlbumAction(item))

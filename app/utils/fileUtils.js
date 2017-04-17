@@ -16,8 +16,6 @@ function checkLibrary() {
 }
 
 function fileDownload(configuration) {
-  console.log(configuration)
-
   return new Promise(function(resolve, reject) {
     const pully = new Pully()
 
@@ -43,11 +41,9 @@ function fileDownload(configuration) {
     pully.download(options)
     .then((results) => {
       console.log(`Download Complete: "${results.path}"`);
-      resolve(results.path)
-    }, err => {
-      console.error('Uh oh!', err);
-      resolve()
-    });
+      resolve({status: true, path: results.path})
+    })
+    .catch(err => resolve({status: false}))
   })
 }
 

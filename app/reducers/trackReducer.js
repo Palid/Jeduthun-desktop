@@ -47,12 +47,16 @@ export function downloadTrackAction (track, index) {
             dispatch(setDownloadStatusAction(received, index))
         }
     }).then(function(filePath) {
-      let responseObject = {
-        file: filePath,
-        status: 'READY'
+      if(filePath.status){
+        let responseObject = {
+          file: filePath.path,
+          status: 'READY'
+        }
+        dispatch(saveTrackAction(responseObject, index))
+        dispatch(changeTrackStatusAction('READY', index))
+      } else {
+        console.error('file download error')
       }
-      dispatch(saveTrackAction(responseObject, index))
-      dispatch(changeTrackStatusAction('READY', index))
     })
   }
 }

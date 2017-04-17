@@ -36,7 +36,6 @@ export function loadExistingFiles () {
     checkLibrary().then(function(files){
       let savedFiles = []
       files.forEach(file => {
-        console.log(getAudioPath(file))
         dispatch(add({
           file: getAudioPath(file),
           title: file,
@@ -45,21 +44,6 @@ export function loadExistingFiles () {
       });
     })
   }
-}
-
-
-function initializeState() {
-  checkLibrary().then(function(files){
-    let savedFiles = []
-    files.forEach(file => {
-      console.log(file);
-      savedFiles.push({
-        file: file,
-        title: file,
-        status: 'READY'
-      })
-    });
-  })
 }
 
 // TODO:
