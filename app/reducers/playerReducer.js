@@ -1,5 +1,6 @@
 import { playerDefaults } from './../statics/TypesAndDefaults'
 import update from 'immutability-helper'
+import { getRandomArbitrary } from '../utils/fileUtils'
 
 // TODO:
 // 1.) Modify according to recieved data for album
@@ -39,18 +40,24 @@ export const change = (album, index) => ({
 })
 export function next (index) {
   return (dispatch, getState) => {
-    const { playlistReducer } = getState();
+    const { playlistReducer, playerReducer } = getState()
+    let nextTrack = null
     if(!playlistReducer){
       console.error('PLAYER ERROR: No playlist found')
     }
-    const lastTrack = playlistReducer.tracks.length === index ? true : false
-    let nextTrack = null
-    if(lastTrack){
-      nextTrack = playlistReducer.tracks[0]
-      dispatch(change(nextTrack, 0))
+    if(!playerReducer.options.shuffle) {
+      const lastTrack = playlistReducer.tracks.length === index ? true : false
+      if(lastTrack){
+        nextTrack = playlistReducer.tracks[0]
+        dispatch(change(nextTrack, 0))
+      } else {
+        nextTrack = playlistReducer.tracks[index]
+        dispatch(change(nextTrack, index))
+      }
     } else {
-      nextTrack = playlistReducer.tracks[index]
-      dispatch(change(nextTrack, index))
+      const nextTrackIndex = getRandomArbitrary(0, playlistReducer.tracks.length)
+      nextTrack = playlistReducer.tracks[nextTrackIndex]
+      dispatch(change(nextTrack, nextTrackIndex))
     }
   }
 }

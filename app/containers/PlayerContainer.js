@@ -21,6 +21,7 @@ class PlayerContainer extends Component {
     this.handleNext = this.handleNext.bind(this)
     this.handlePrev = this.handlePrev.bind(this)
     this.toggleRepeatMode = this.toggleRepeatMode.bind(this)
+    this.toggleShuffleMode = this.toggleShuffleMode.bind(this)
   }
 
   prepareAudioObject() {
@@ -68,7 +69,7 @@ class PlayerContainer extends Component {
     this.props.dispatch(next(this.props.drive.index - 1))
   }
 
-  getCurrentRepeatStatus() {
+  getRepeatStatus() {
     const props = this.props
     if(props.options.repeatOne){
       return 'repeat one'
@@ -76,6 +77,15 @@ class PlayerContainer extends Component {
       return 'repeat all'
     } else if(!props.options.repeatOne && !props.options.repeatAll) {
       return 'no repeat'
+    }
+  }
+
+  getShuffleStatus() {
+    const props = this.props
+    if(props.options.shuffle){
+      return 'shuffle: on'
+    } else {
+      return 'shuffle: off'
     }
   }
 
@@ -90,17 +100,30 @@ class PlayerContainer extends Component {
     }
   }
 
+  toggleShuffleMode() {
+    const props = this.props
+    if(props.options.shuffle){
+      props.dispatch(optionsChange({...props.options, shuffle: false}))
+    } else {
+      props.dispatch(optionsChange({...props.options, shuffle: true}))
+    }
+  }
+
   render() {
     const props = this.props
     const audioObject = props.drive.file ? this.prepareAudioObject() : null
-    const repeatStatus = this.getCurrentRepeatStatus()
+    const repeatStatus = this.getRepeatStatus()
+    const shuffleStatus = this.getShuffleStatus()
+    const nowPlaying = props.drive ? <span>Now Playing: {props.drive.title}</span> : ''
     return(
     <div className={styles.player}>
       <h2>Player</h2>
+      {nowPlaying}
       <button onClick={() => this.handlePrev()}>Prev</button>
       <button onClick={() => this.handleNext()}>Next</button>
       {audioObject}
       <button onClick={() => this.toggleRepeatMode()}>{repeatStatus}</button>
+      <button onClick={() => this.toggleShuffleMode()}>{shuffleStatus}</button>
     </div>
   )}
 }

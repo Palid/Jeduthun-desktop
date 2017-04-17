@@ -87,6 +87,10 @@ function getYtLength(id, key) {
   .catch(err => console.error(err.message))
 }
 
+function getRandomArbitrary(min, max) {
+  return Math.trunc(Math.random() * (max - min) + min)
+}
+
 const getAppRoutePath = _ => path.resolve(path.dirname(global.require.main.filename), '../')
 
 const getAudioPath = audioPath => path.resolve(getAppRoutePath(), LIBRARY_PATH, audioPath)
@@ -96,5 +100,6 @@ export default {
   getAppRoutePath,
   getAudioPath,
   getYtLength,
-  checkLibrary
+  checkLibrary,
+  getRandomArbitrary
 }
