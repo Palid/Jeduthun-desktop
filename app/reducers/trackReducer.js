@@ -34,11 +34,10 @@ export function downloadTrackAction (track, index) {
   return dispatch => {
     const src = getAudioPath(`${track.title}.mp3`)
     fileDownload({
-        remoteFile: `http://www.youtubeinmp3.com/fetch/?video=${track.link}`,
+        remoteFile: `${track.link}`,
         localFile: src,
-        onProgress: function (received,total){
-            var percentage = (received * 100) / total;
-            dispatch(setDownloadStatusAction(percentage, index))
+        onProgress: function (received){
+            dispatch(setDownloadStatusAction(received, index))
         }
     }).then(function() {
       let responseObject = {

@@ -4,47 +4,48 @@
 const request = require('request')
 const fs = require('fs')
 const path = require('path')
+const { Pully, Presets } = require('pully')
 
 const LIBRARY_PATH = './library/'
 
 function fileDownload(configuration) {
-  return new Promise(function (resolve, reject) {
-    // Save variable to know progress
-    let received_bytes = 0
-    let total_bytes = 0
+  console.log(configuration)
 
-    let req = request({
-      method: 'GET',
-      uri: configuration.remoteFile
-    })
+  return new Promise(function(resolve, reject) {
+    const pully = new Pully()
 
-    let out = fs.createWriteStream(configuration.localFile)
-    req.pipe(out)
+    const options = {
+      url: configuration.remoteFile,
+      dir: './library',
+      template: '${title}',
+      preset: Presets.MP3,
+      info: (format, cancel) => {
+        console.log('Verify: ' + format.info.downloadSize);
 
-    req.on('response', function (data) {
-      // Change the total bytes value to get progress later.
-      total_bytes = parseInt(data.headers['content-length'])
-    })
+        // Limit download to ~3MB...    
+        if (format.info.downloadSize > 3000000) {
+          cancel();
+        }
+      },
+      progress: (data) => {
+        if (data.indeterminate) {
+          console.log(`[${new Date().toUTCString()}] Working...`);
+        } else {
+          console.log(`Progress: ${data.percent}%`);
+          configuration.onProgress(data.percent)
+        }
+      }
+    };
 
-    // Get progress if callback exists
-    if (configuration.hasOwnProperty("onProgress")) {
-      req.on('data', function (chunk) {
-        // Update the received bytes
-        received_bytes += chunk.length
-
-        configuration.onProgress(received_bytes, total_bytes)
-      })
-    } else {
-      req.on('data', function (chunk) {
-        // Update the received bytes
-        received_bytes += chunk.length
-      })
-    }
-
-    req.on('end', function () {
+    pully.download(options)
+    .then((results) => {
+      console.log(`Download Complete: "${results.path}"`);
+      resolve()
+    }, err => {
+      console.error('Uh oh!', err);
       resolve()
     });
-  });
+  })
 }
 
 function ytDurationToStr(ytDuration) {

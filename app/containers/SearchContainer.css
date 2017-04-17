@@ -1,0 +1,60 @@
+.search {
+  width: 100%;
+  text-align: left;
+}
+.search h3, .search label {
+  font-size: 12px;
+  color: #7e796f;
+}
+.search h3 {
+  padding: 10px 0 5px 0;
+  margin: 0px;
+  border-bottom: 1px dashed #cdcbc2;
+}
+.search .formPart {
+  float: left;
+  width: 100%;
+  padding: 10px;
+}
+.search .formPart:nth-child(odd) {
+  background-color: white;
+  border: 1px solid #f4f4f4;
+}
+.search .formPart:nth-child(even) {
+  background-color: #fbfbfb;
+  border: 1px solid #f0f0f0;
+}
+
+.formPart_SplitHorizontal {
+  float: left;
+  width: 50%;
+}
+
+.formPart, .formPart_SplitHorizontal {
+  box-sizing: border-box;
+}
+
+.search input, .search select {
+  float: left;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #e1dfd7;
+  padding: 12px 10px;
+  font-size: 14px;
+  color: #a59f94;
+  font-family:'kayak_sansregular';
+}
+
+.formPart_SplitHorizontal:first-child input {
+  width: 95%;
+}
+.formPart_SplitHorizontal:last-child input,
+.formPart_SplitHorizontal:last-child label,
+.formPart_SplitHorizontal:last-child select {
+  width: 95%;
+  margin-left: 5%;
+}
+
+.search .formPart:nth-child(even) input {
+  border-color: #cdcbc2;
+}

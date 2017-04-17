@@ -8,6 +8,7 @@ import {
   searchDefaults
 } from '../statics/TypesAndDefaults'
 import PaginationComponent from '../components/PaginationComponent'
+import styles from './SearchContainer.css'
 
 class SearchContainer extends React.Component {
   constructor(props) {
@@ -56,23 +57,26 @@ class SearchContainer extends React.Component {
   }
   render() {
     return(
-      <div className="search">
+      <div className={styles.search}>
         <form onSubmit={this.handleSubmit}>
-          <div className="form-part">
-            <h3>Search for</h3>
+          <div className={styles.formPart}>
+            <h3>Search phrase:</h3>
             <BasicInputComponent
               name="stringMain"
               type="text"
               value={this.state.stringMain}
               onChange={this.handleChange}
             />
+          </div>
+          <div className={styles.formPart}>
+            <h3>Additional phrase options:</h3>
             <BasicInputComponent
               name="stringOr"
               label="Or instead:"
               type="text"
               value={this.state.stringOr}
               onChange={this.handleChange}
-              wrapperClass="form-part--split-horizontal"
+              wrapperClass={styles.formPart_SplitHorizontal}
             />
             <BasicInputComponent
               name="stringNot"
@@ -80,11 +84,11 @@ class SearchContainer extends React.Component {
               type="text"
               value={this.state.stringNot}
               onChange={this.handleChange}
-              wrapperClass="form-part--split-horizontal"
+              wrapperClass={styles.formPart_SplitHorizontal}
             />
           </div>
-          <div className="form-part">
-            <h3>Video details</h3>
+          <div className={styles.formPart}>
+            <h3>Video details:</h3>
             <BasicInputComponent
               name="videoLength"
               label="Video length:"
@@ -92,7 +96,7 @@ class SearchContainer extends React.Component {
               value={this.state.videoLength}
               onChange={this.handleChange}
               options={videoLengths}
-              wrapperClass="form-part--split-horizontal"
+              wrapperClass={styles.formPart_SplitHorizontal}
             />
             <BasicInputComponent
               name="videoQuality"
@@ -101,11 +105,11 @@ class SearchContainer extends React.Component {
               value={this.state.videoQuality}
               onChange={this.handleChange}
               options={videoQualities}
-              wrapperClass="form-part--split-horizontal"
+              wrapperClass={styles.formPart_SplitHorizontal}
             />
           </div>
-          <div className="form-part">
-            <h3>Results view options</h3>
+          <div className={styles.formPart}>
+            <h3>Results options:</h3>
             <BasicInputComponent
               name="resultsOrder"
               label="View order:"
@@ -113,7 +117,7 @@ class SearchContainer extends React.Component {
               value={this.state.resultsOrder}
               onChange={this.handleChange}
               options={listOrdering}
-              wrapperClass="form-part--split-horizontal"
+              wrapperClass={styles.formPart_SplitHorizontal}
             />
             <BasicInputComponent
               name="resultsPerPage"
@@ -121,7 +125,7 @@ class SearchContainer extends React.Component {
               type="text"
               value={this.state.resultsPerPage}
               onChange={this.handleChange}
-              wrapperClass="form-part--split-horizontal"
+              wrapperClass={styles.formPart_SplitHorizontal}
             />
           </div>
           <input type="submit" value="Submit"/>

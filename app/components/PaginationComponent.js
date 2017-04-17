@@ -15,7 +15,7 @@ const PaginationComponent = props =>
     <button onClick={props.handlePageLoadNext}>
       NEXT
       <svg width="11.314px" height="22.627px" viewBox="0 0 11.314 22.627" >
-        <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#E4E4E4" points="11.314,11.313 0,22.627 0,0 	"/>
+        <polygon fillRule="evenodd" clipRule="evenodd" fill="#E4E4E4" points="11.314,11.313 0,22.627 0,0 	"/>
       </svg>
     </button>
   </div>

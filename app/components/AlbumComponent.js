@@ -10,7 +10,7 @@ const AlbumComponent = props =>
     <div className={styles.albumButton}>
       <button onClick={() => props.addToPlaylistAction(props.album)}>
         <svg width="50px" height="50px" viewBox="0 0 50 50">
-          <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#888131" points="33,17 33,0 17,0 17,17 0,17 0,33 17,33 17,50 33,50 
+          <polygon fillRule="evenodd" clipRule="evenodd" fill="#888131" points="33,17 33,0 17,0 17,17 0,17 0,33 17,33 17,50 33,50 
 		33,33 50,33 50,17 	"/>
         </svg>
       </button>
