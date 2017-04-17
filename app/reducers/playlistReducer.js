@@ -1,6 +1,7 @@
 import { playlistDefaults } from './../statics/TypesAndDefaults'
 import update from 'immutability-helper'
 import trackReducer from './trackReducer'
+import { checkLibrary, getAudioPath } from '../utils/fileUtils'
 
 const ADD = 'playlist/ADD'
 const DELETE = 'playlist/DELETE'
@@ -26,19 +27,40 @@ export const play = (track) => ({
   type: PLAY,
   track
 })
-export function getByIndex(index) {
-  return (getState) => {
-    console.log(getState())
-    const { tracks } = getState();
-    console.log(tracks)
-    console.log(tracks[index])
-  };
-}
 export const orderChange = (order) => ({
   type: ORDER_CHANGE,
   order
 })
+export function loadExistingFiles () {
+  return dispatch => {
+    checkLibrary().then(function(files){
+      let savedFiles = []
+      files.forEach(file => {
+        console.log(getAudioPath(file))
+        dispatch(add({
+          file: getAudioPath(file),
+          title: file,
+          status: 'READY'
+        }))
+      });
+    })
+  }
+}
 
+
+function initializeState() {
+  checkLibrary().then(function(files){
+    let savedFiles = []
+    files.forEach(file => {
+      console.log(file);
+      savedFiles.push({
+        file: file,
+        title: file,
+        status: 'READY'
+      })
+    });
+  })
+}
 
 // TODO:
 // Load all saved tracks from pointed folder

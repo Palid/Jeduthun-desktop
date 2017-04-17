@@ -15,7 +15,8 @@ import {
   deleteTrack,
   move,
   play,
-  orderChange
+  orderChange,
+  loadExistingFiles
 } from '../reducers/playlistReducer'
 import TrackComponent from '../components/TrackComponent'
 import styles from './PlaylistContainer.css'
@@ -23,6 +24,12 @@ import styles from './PlaylistContainer.css'
 class PlaylistContainer extends Component {
   constructor(props) {
     super(props)
+  }
+
+  componentDidMount(nextProps) {
+    if(!nextProps){
+      this.props.dispatch(loadExistingFiles())
+    }
   }
 
   render() { 

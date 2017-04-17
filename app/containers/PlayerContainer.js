@@ -39,8 +39,10 @@ class PlayerContainer extends Component {
     }
   }
 
-  componentDidUpdate() {
-    this.audioEl.play()
+  componentDidUpdate(nextProps) {
+    if(nextProps.drive != this.props.drive){
+      this.audioEl.play()
+    }
   }
 
   handlePlay() {
@@ -52,6 +54,7 @@ class PlayerContainer extends Component {
   }
 
   handleEnd() {
+    this.props.dispatch(stop('STOP'))
     if (this.props.options.repeatAll) {
       this.props.dispatch(next(this.props.drive.index + 1))
     }
@@ -94,10 +97,10 @@ class PlayerContainer extends Component {
     return(
     <div className={styles.player}>
       <h2>Player</h2>
+      <button onClick={() => this.handlePrev()}>Prev</button>
+      <button onClick={() => this.handleNext()}>Next</button>
       {audioObject}
       <button onClick={() => this.toggleRepeatMode()}>{repeatStatus}</button>
-      <button onClick={() => this.handleNext()}>Next</button>
-      <button onClick={() => this.handlePrev()}>Prev</button>
     </div>
   )}
 }

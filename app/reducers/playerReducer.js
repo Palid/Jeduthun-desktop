@@ -1,6 +1,5 @@
 import { playerDefaults } from './../statics/TypesAndDefaults'
 import update from 'immutability-helper'
-import { getByIndex } from './playlistReducer'
 
 // TODO:
 // 1.) Modify according to recieved data for album
@@ -41,6 +40,9 @@ export const change = (album, index) => ({
 export function next (index) {
   return (dispatch, getState) => {
     const { playlistReducer } = getState();
+    if(!playlistReducer){
+      console.error('PLAYER ERROR: No playlist found')
+    }
     const lastTrack = playlistReducer.tracks.length === index ? true : false
     let nextTrack = null
     if(lastTrack){

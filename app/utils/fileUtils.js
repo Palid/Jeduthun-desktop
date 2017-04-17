@@ -8,6 +8,13 @@ const { Pully, Presets } = require('pully')
 
 const LIBRARY_PATH = './library/'
 
+function checkLibrary() {
+  return new Promise(function (resolve, reject) {
+    let output = null
+    fs.readdir(LIBRARY_PATH, (err, files) => { resolve(files) })
+  })
+}
+
 function fileDownload(configuration) {
   console.log(configuration)
 
@@ -88,5 +95,6 @@ export default {
   fileDownload,
   getAppRoutePath,
   getAudioPath,
-  getYtLength
+  getYtLength,
+  checkLibrary
 }

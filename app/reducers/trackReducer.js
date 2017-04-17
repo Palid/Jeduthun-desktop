@@ -22,11 +22,20 @@ export function checkTrackStatusAction (track, index) {
       case 'NEW':
         dispatch(downloadTrackAction(track, index))
         break
-      case 'PLAYING' | 'PAUSED' | 'READY' | 'ERROR':
+      case 'PLAYING':
+        dispatch(changeTrackStatusAction(track.status, index))
+        break
+      case 'PAUSED':
+        dispatch(changeTrackStatusAction(track.status, index))
+        break
+      case 'READY':
+        dispatch(changeTrackStatusAction(track.status, index))
+        break
+      case 'ERROR':
         dispatch(changeTrackStatusAction(track.status, index))
         break
       default:
-        console.warning(`No status defined for TRACK ${track.title}`)
+        console.error(`No status defined for TRACK ${track.title}`)
     }
   }
 }
