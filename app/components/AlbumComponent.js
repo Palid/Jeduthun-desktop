@@ -7,6 +7,7 @@ const AlbumComponent = props =>
   <div className={styles.album}>
     <img src={props.album.cover.url} alt="cover"/>
     <h2>{truncateString.apply(props.album.title, [28, false])}</h2>
+    <span>{props.album.duration}</span>
     <div className={styles.albumButton}>
       <button onClick={() => props.addToPlaylistAction(props.album)}>
         <svg width="50px" height="50px" viewBox="0 0 50 50">

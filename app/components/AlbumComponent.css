@@ -21,11 +21,21 @@
 .album img:hover {
   border-color: #c1c960;
 }
-.album h2 {
+.album h2, .album span {
   font-family:'kayak_sansbold';
+  color:#8c8c8c;
+  display: inline-block;
+  width: 100%;
+}
+.album h2 {
   font-size:12px;
   height: 28px;
-  color:#8c8c8c;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+.album span {
+  font-size:10px;
+  margin-bottom: 10px;
 }
 .albumButton {
   display: none;
