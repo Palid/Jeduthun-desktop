@@ -70,10 +70,18 @@ class PlayerContainer extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+      if (this.props.drive.index) {
+        this.props.dispatch(changeTrackStatusAction('READY', 0)) //This needs some clarifications, there's an issue with sending zero value
+        this.props.dispatch(changeTrackStatusAction('READY', this.props.drive.index))
+      }
+      if (nextProps.drive.index) {
+        this.props.dispatch(changeTrackStatusAction('PLAYING', nextProps.drive.index))
+      }
+  }
+
   componentDidUpdate(nextProps) {
     if(nextProps.drive != this.props.drive){
-      this.props.dispatch(changeTrackStatusAction('PLAYING', this.props.drive.index))
-      this.props.dispatch(changeTrackStatusAction('READY', nextProps.drive.index))
       this.audioEl.play()
     }
   }
@@ -89,9 +97,9 @@ class PlayerContainer extends Component {
   }
 
   handleEndEvent() {
+    this.props.dispatch(changeTrackStatusAction('READY', this.props.drive.index))
     this.props.dispatch(stop('STOP'))
     if (this.props.options.repeatAll) {
-      this.props.dispatch(changeTrackStatusAction('READY', this.props.drive.index))
       this.props.dispatch(next(this.props.drive.index + 1))
     }
   }
@@ -130,12 +138,16 @@ class PlayerContainer extends Component {
   }
 
   handleNext() {
+    this.props.dispatch(changeTrackStatusAction('READY', this.props.drive.index))
     this.props.dispatch(memoryChange({...this.props.memory, prev: this.props.drive.index}))
+    this.props.dispatch(changeTrackStatusAction('PLAYING', this.props.drive.index + 1))
     this.props.dispatch(next(this.props.drive.index + 1))
   }
 
   handlePrev() {
+    this.props.dispatch(changeTrackStatusAction('READY', this.props.drive.index))
     this.props.dispatch(memoryChange({...this.props.memory, prev: this.props.drive.index}))
+    this.props.dispatch(changeTrackStatusAction('PLAYING', this.props.drive.index - 1))
     this.props.dispatch(next(this.props.drive.index - 1))
   }
 

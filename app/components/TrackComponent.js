@@ -28,16 +28,28 @@ class TrackComponent extends React.Component {
       return '#fbfbfb'
     }
   }
+  getNameStyle() {
+    if(this.props.track.status === 'READY') {
+      return styles.trackNameNormal
+    } else if(this.props.track.status === 'PLAYING') {
+      return styles.trackNamePlaying
+    } else if(this.props.track.status === 'PAUSED'){
+      return styles.trackNamePaused
+    } else {
+      return styles.trackNameLoading
+    }
+  }
   render() {
     const props = this.props
     const loading = this.getLoadingState()
     const loadingBg = this.getLoadingBg()
+    const nameStyle = this.getNameStyle()
     return(
       <div
       className={styles.track}
       onClick={() => props.playTrackAction(props.track, props.id)}
       ref={(ref) => { this.trackEl = ref }}>
-        <h3 className={styles.trackName}>
+        <h3 className={nameStyle}>
           {props.track.title}
         </h3>
         <LoadingBar
