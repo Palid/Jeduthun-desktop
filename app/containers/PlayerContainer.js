@@ -12,6 +12,7 @@ import {
   change,
 } from '../reducers/playerReducer'
 import ProgressBar from '../components/ProgressBarComponent'
+import { secondsToTime } from '../utils/componentUtils'
 import styles from './PlayerContainer.css'
 
 class PlayerContainer extends Component {
@@ -46,6 +47,22 @@ class PlayerContainer extends Component {
         ref={(ref) => { this.audioEl = ref }}
         loop={this.props.options.repeatOne}
         ></audio>
+      )
+    }
+  }
+
+  prepareTimer() {
+    if (this.props.memory) {
+      const memoryTime = Math.round(this.props.memory.currentTime)
+      const memoryDuration = Math.round(this.props.memory.currentDuration)
+      const timeObj = secondsToTime(memoryTime)
+      const durationObj = secondsToTime(memoryDuration)
+      const time = `${timeObj.h > 0 ? timeObj.h + ':' : ''}${timeObj.m}:${timeObj.s < 10 ? '0' + timeObj.s : timeObj.s}`
+      const duration = `${durationObj.h > 0 ? durationObj.h + ':' : ''}${durationObj.m}:${durationObj.s < 10 ? '0' + durationObj.s : durationObj.s}`
+      return (
+        <span className={styles.timer}>
+          {time} / {duration}
+        </span>
       )
     }
   }
@@ -180,25 +197,36 @@ class PlayerContainer extends Component {
     const audioObject = props.drive.file ? this.prepareAudioObject() : null
     const repeatStatus = this.getRepeatStatus()
     const shuffleStatus = this.getShuffleStatus()
-    const nowPlaying = props.drive ? <span>Now Playing: {props.drive.title}</span> : ''
+    const nowPlaying = props.drive ? <h1 className={styles.nowPlaying}>{props.drive.title}</h1> : ''
     const playPauseButton = props.status === 'PAUSE' ? <button onClick={() => this.handlePlay()}>Play</button> : <button onClick={() => this.handlePause()}>Pause</button>
     const muteButton = props.options.volume === 0 ? <button onClick={() => this.handleVolumeChange(1)}>unmute</button> : <button onClick={() => this.handleVolumeChange(0)}>mute</button>
+    const timerCount = this.prepareTimer()
     return(
     <div className={styles.player} ref={(ref) => { this.containerEl = ref }}>
-      <h2>Player</h2>
-      {nowPlaying}
-      <button onClick={() => this.handlePrev()}>Prev</button>
-      <button onClick={() => this.handleNext()}>Next</button>
       {audioObject}
-      <button onClick={() => this.toggleRepeatMode()}>{repeatStatus}</button>
-      <button onClick={() => this.toggleShuffleMode()}>{shuffleStatus}</button>
-      {muteButton}
-      {playPauseButton}
+      {nowPlaying}
+      {timerCount}
       <ProgressBar
       playerWidth={this.containerEl ? this.containerEl.offsetWidth : 0}
       songDuration={props.memory.currentDuration}
       currentTime={props.memory.currentTime}
       seek={(event) => this.handleSeek(event)}/>
+      <div className={styles.options}>
+        <div className={styles.optionsLeft}>
+          <button onClick={() => this.toggleRepeatMode()}>{repeatStatus}</button>
+        </div>
+        <div className={styles.optionsCenter}>
+          <button onClick={() => this.toggleShuffleMode()}>{shuffleStatus}</button>
+        </div>
+        <div className={styles.optionsRight}>
+          {muteButton}
+        </div>
+      </div>
+      <div className={styles.controls}>
+        <button onClick={() => this.handlePrev()}>Prev</button>
+        {playPauseButton}
+        <button onClick={() => this.handleNext()}>Next</button>
+      </div>
     </div>
   )}
 }

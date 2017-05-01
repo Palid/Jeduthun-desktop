@@ -1,8 +1,49 @@
 .player {
   float: left;
   width: 100%;
+  text-align: center;
 }
 
 .player audio {
   display: none;
+}
+
+.nowPlaying {
+  font-size: 18px;
+  font-family:'kayak_sanslight';
+  color: #88802b;
+  box-sizing: border-box;
+  padding: 20px 20px 5px 20px;
+  margin: 0px;
+}
+
+.timer {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.options {
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0 20px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.optionsLeft {
+  float: left;
+  width: 33.3%;
+  text-align: left;
+}
+.optionsCenter {
+  float: left;
+  width: 33.3%;
+  text-align: center;
+}
+.optionsRight {
+  float: left;
+  width: 33.3%;
+  text-align: right;
+}
+.controls {
+
 }
