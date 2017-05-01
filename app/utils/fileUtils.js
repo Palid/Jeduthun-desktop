@@ -28,11 +28,9 @@ function fileDownload(configuration) {
         console.log('Verify: ' + format.info.downloadSize);
       },
       progress: (data) => {
-        console.log(data)
         if (data.indeterminate) {
           console.log(`[${new Date().toUTCString()}] Working...`);
         } else {
-          console.log(`Progress: ${data.percent}%`);
           configuration.onProgress(data.percent)
         }
       }

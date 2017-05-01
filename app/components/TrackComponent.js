@@ -1,19 +1,50 @@
 import React from 'react'
+import styles from './TrackComponent.css'
+import LoadingBar from '../components/LoadingBarComponent'
 
 class TrackComponent extends React.Component {
-  componentDidMount(){
+  componentDidMount() {
     if(this.props.checkTrackStatusAction){
       this.props.checkTrackStatusAction(this.props.track, this.props.id)
     }
   }
+  getLoadingState() {
+    if(this.props.track.status === 'READY' || this.props.track.status === 'PLAYING' || this.props.track.status === 'PAUSED'){
+      return 100
+    } else if(this.props.track.loading){
+      return this.props.track.loading
+    } else {
+      return 0
+    }
+  }
+  getLoadingBg() {
+    if(this.props.track.status === 'READY') {
+      return '#fbfbfb'
+    } else if(this.props.track.status === 'PLAYING') {
+      return '#c1c960'
+    } else if(this.props.track.status === 'PAUSED'){
+      return '#e7ee98'
+    } else {
+      return '#fbfbfb'
+    }
+  }
   render() {
     const props = this.props
-    const loading = props.track.loading ? <p>{props.track.loading}</p> : ''
+    const loading = this.getLoadingState()
+    const loadingBg = this.getLoadingBg()
     return(
-      <div className="album">
-        <h3>{props.track.title}</h3>
-        {loading}
-        <button onClick={() => props.playTrackAction(props.track, props.id)}>Play</button>
+      <div
+      className={styles.track}
+      onClick={() => props.playTrackAction(props.track, props.id)}
+      ref={(ref) => { this.trackEl = ref }}>
+        <h3 className={styles.trackName}>
+          {props.track.title}
+        </h3>
+        <LoadingBar
+        parentWidth={this.trackEl ? this.trackEl.offsetWidth : 0}
+        parentHeight={this.trackEl ? this.trackEl.offsetHeight : 0}
+        loadingStatus={loading} 
+        bgColor={loadingBg}/>
       </div>
     )
   }

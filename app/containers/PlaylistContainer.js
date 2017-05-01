@@ -35,7 +35,6 @@ class PlaylistContainer extends Component {
   render() { 
     return (
       <div className={styles.playlist}>
-        <h2>Playlist</h2>
         {this.props.tracks.map((item, index) =>
           <TrackComponent track={item} key={index} id={index}
           {...trackDispatchProperties(index)(this.props.dispatch)}/>
@@ -51,15 +50,15 @@ const mapStateToProps = (state) => {
 const trackDispatchProperties =
   index =>
     dispatch => bindActionCreators(
-        bindIndexToActionCreators({
-          playTrackAction,
-          stopTrackAction,
-          downloadTrackAction,
-          saveTrackAction,
-          checkTrackStatusAction,
-          move,
-          deleteTrack
-        }, index),
-      dispatch)
+      bindIndexToActionCreators({
+        playTrackAction,
+        stopTrackAction,
+        downloadTrackAction,
+        saveTrackAction,
+        checkTrackStatusAction,
+        move,
+        deleteTrack
+      }, index),
+    dispatch)
 
 export default connect(mapStateToProps)(PlaylistContainer)

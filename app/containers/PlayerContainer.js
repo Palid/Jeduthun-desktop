@@ -11,6 +11,9 @@ import {
   next,
   change,
 } from '../reducers/playerReducer'
+import {
+  changeTrackStatusAction
+} from '../reducers/trackReducer'
 import ProgressBar from '../components/ProgressBarComponent'
 import { secondsToTime } from '../utils/componentUtils'
 import styles from './PlayerContainer.css'
@@ -69,21 +72,26 @@ class PlayerContainer extends Component {
 
   componentDidUpdate(nextProps) {
     if(nextProps.drive != this.props.drive){
+      this.props.dispatch(changeTrackStatusAction('PLAYING', this.props.drive.index))
+      this.props.dispatch(changeTrackStatusAction('READY', nextProps.drive.index))
       this.audioEl.play()
     }
   }
 
   handlePlayEvent() {
+    this.props.dispatch(changeTrackStatusAction('PLAYING', this.props.drive.index))
     this.props.dispatch(start('PLAY'))
   }
 
   handlePauseEvent() {
+    this.props.dispatch(changeTrackStatusAction('PAUSED', this.props.drive.index))
     this.props.dispatch(stop('PAUSE'))
   }
 
   handleEndEvent() {
     this.props.dispatch(stop('STOP'))
     if (this.props.options.repeatAll) {
+      this.props.dispatch(changeTrackStatusAction('READY', this.props.drive.index))
       this.props.dispatch(next(this.props.drive.index + 1))
     }
   }
@@ -144,7 +152,8 @@ class PlayerContainer extends Component {
   handleSeek(event) {
     if (event) {
       try {
-        this.audioEl.currentTime = this.audioEl.duration * (event / this.containerEl.offsetWidth)
+        const containerWidth = this.containerEl.offsetWidth - 40
+        this.audioEl.currentTime = this.audioEl.duration * (event / containerWidth)
       }
       catch (err) {
         if (window.console && console.error("Error:" + err));
