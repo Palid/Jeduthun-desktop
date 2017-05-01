@@ -92,18 +92,22 @@ export const playerDefaults = {
   status: 'STOP',
   drive: {
     title: '',
-    file: ''
+    file: '',
+    status: 'EMPTY',
+    index: '',
   },
   options: {
     sound: true,
     shuffle: false,
     repeatOne: false,
     repeatAll: false,
-    recording: false
+    recording: false,
+    volume: '',
   },
   memory: {
-    last: '',
-    prev: ''
+    prev: '',
+    currentTime: '',
+    currentDuration: '',
   }
 }
 

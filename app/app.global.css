@@ -25,6 +25,8 @@
 }
 
 body {
+  padding: 0px;
+  margin: 0px;
   color: #7d786e;
   background-color: white;
   font-family: 'kayak_sansregular', Arial, Helvetica, Helvetica Neue, serif;

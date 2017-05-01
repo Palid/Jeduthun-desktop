@@ -12,6 +12,7 @@ const PAUSE = 'player/PAUSE'
 const MUTE = 'player/MUTE'
 const OPTIONS_CHANGE = 'player/OPTIONS_CHANGE'
 const CHANGE = 'player/CHANGE'
+const MEMORY_CHANGE = 'player/MEMORY_CHANGE'
 
 export const start = (newState) => ({
   type: START,
@@ -32,6 +33,10 @@ export const mute = (newState) => ({
 export const optionsChange = (options) => ({
   type: OPTIONS_CHANGE,
   options
+})
+export const memoryChange = (memory) => ({
+  type: MEMORY_CHANGE,
+  memory
 })
 export const change = (album, index) => ({
   type: CHANGE,
@@ -78,6 +83,9 @@ const reducer = (state = playerDefaults, action) => {
       break
     case OPTIONS_CHANGE:
       return update(state, {$merge: {options: action.options}})
+      break
+    case MEMORY_CHANGE:
+      return update(state, {$merge: {memory: action.memory}})
       break
     case CHANGE:
       return update(state, {

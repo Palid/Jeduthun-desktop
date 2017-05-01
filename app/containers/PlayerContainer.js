@@ -7,19 +7,25 @@ import {
   pause,
   mute,
   optionsChange,
+  memoryChange,
   next,
-  change
+  change,
 } from '../reducers/playerReducer'
 import styles from './PlayerContainer.css'
 
 class PlayerContainer extends Component {
   constructor(props) {
     super(props)
-    this.handlePlay = this.handlePlay.bind(this)
-    this.handlePause = this.handlePause.bind(this)
-    this.handleEnd = this.handleEnd.bind(this)
+    this.handlePlayEvent = this.handlePlayEvent.bind(this)
+    this.handlePauseEvent = this.handlePauseEvent.bind(this)
+    this.handleEndEvent = this.handleEndEvent.bind(this)
+    this.handleTimeUpdateEvent = this.handleTimeUpdateEvent.bind(this)
+    this.handleAudioLoadEvent = this.handleAudioLoadEvent.bind(this)
     this.handleNext = this.handleNext.bind(this)
     this.handlePrev = this.handlePrev.bind(this)
+    this.handlePlay = this.handlePlay.bind(this)
+    this.handlePause = this.handlePause.bind(this)
+    this.handleVolumeChange = this.handleVolumeChange.bind(this)
     this.toggleRepeatMode = this.toggleRepeatMode.bind(this)
     this.toggleShuffleMode = this.toggleShuffleMode.bind(this)
   }
@@ -30,10 +36,12 @@ class PlayerContainer extends Component {
         <audio
         controls
         src={this.props.drive.file}
-        onPlay={this.handlePlay}
-        onPause={this.handlePause}
-        onEnded={this.handleEnd}
-        ref={(ref) => { this.audioEl = ref; }}
+        onPlay={this.handlePlayEvent}
+        onPause={this.handlePauseEvent}
+        onEnded={this.handleEndEvent}
+        onTimeUpdate={this.handleTimeUpdateEvent}
+        onLoadedData={this.handleAudioLoadEvent}
+        ref={(ref) => { this.audioEl = ref }}
         loop={this.props.options.repeatOne}
         ></audio>
       )
@@ -46,27 +54,72 @@ class PlayerContainer extends Component {
     }
   }
 
-  handlePlay() {
+  handlePlayEvent() {
     this.props.dispatch(start('PLAY'))
   }
 
-  handlePause() {
+  handlePauseEvent() {
     this.props.dispatch(stop('PAUSE'))
   }
 
-  handleEnd() {
+  handleEndEvent() {
     this.props.dispatch(stop('STOP'))
     if (this.props.options.repeatAll) {
       this.props.dispatch(next(this.props.drive.index + 1))
     }
   }
 
+  handleTimeUpdateEvent() {
+    const currentTime = this.audioEl.currentTime
+    this.props.dispatch(memoryChange({
+      ...this.props.memory, 
+      currentTime: this.audioEl.currentTime
+    }))
+  }
+
+  handleAudioLoadEvent() {
+    if (this.audioEl) {
+      this.props.dispatch(optionsChange({
+        ...this.props.options,
+        volume: this.audioEl.volume
+      }))
+      this.props.dispatch(memoryChange({
+        ...this.props.memory,
+        currentDuration: this.audioEl.duration
+      }))
+    }
+  }
+
+  handlePlay() {
+    if (this.audioEl) {
+      this.audioEl.play()
+    }
+  }
+
+  handlePause() {
+    if (this.audioEl) {
+      this.audioEl.pause()
+    }
+  }
+
   handleNext() {
+    this.props.dispatch(memoryChange({...this.props.memory, prev: this.props.drive.index}))
     this.props.dispatch(next(this.props.drive.index + 1))
   }
 
   handlePrev() {
+    this.props.dispatch(memoryChange({...this.props.memory, prev: this.props.drive.index}))
     this.props.dispatch(next(this.props.drive.index - 1))
+  }
+
+  handleVolumeChange(value) {
+    if (this.audioEl) {
+      this.audioEl.volume = value
+      this.props.dispatch(optionsChange({
+        ...this.props.options,
+        volume: this.audioEl.volume
+      }))
+    }
   }
 
   getRepeatStatus() {
@@ -115,6 +168,7 @@ class PlayerContainer extends Component {
     const repeatStatus = this.getRepeatStatus()
     const shuffleStatus = this.getShuffleStatus()
     const nowPlaying = props.drive ? <span>Now Playing: {props.drive.title}</span> : ''
+    const playPause = props.status === 'PAUSE' ? <button onClick={() => this.handlePlay()}>Play</button> : <button onClick={() => this.handlePause()}>Pause</button>
     return(
     <div className={styles.player}>
       <h2>Player</h2>
@@ -124,6 +178,8 @@ class PlayerContainer extends Component {
       {audioObject}
       <button onClick={() => this.toggleRepeatMode()}>{repeatStatus}</button>
       <button onClick={() => this.toggleShuffleMode()}>{shuffleStatus}</button>
+      <button onClick={() => this.handleVolumeChange(0)}>mute</button>
+      {playPause}
     </div>
   )}
 }
