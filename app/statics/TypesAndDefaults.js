@@ -106,8 +106,8 @@ export const playerDefaults = {
   },
   memory: {
     prev: '',
-    currentTime: '',
-    currentDuration: '',
+    currentTime: 0,
+    currentDuration: 0,
   }
 }
 
