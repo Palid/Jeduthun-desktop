@@ -1,6 +1,9 @@
 import { playerDefaults } from './../statics/TypesAndDefaults'
 import update from 'immutability-helper'
 import { getRandomArbitrary } from '../utils/fileUtils'
+import {
+  changeTrackStatusAction
+} from '../reducers/trackReducer'
 
 // TODO:
 // 1.) Modify according to recieved data for album
@@ -55,14 +58,17 @@ export function next (index) {
       if(lastTrack){
         nextTrack = playlistReducer.tracks[0]
         dispatch(change(nextTrack, 0))
+        dispatch(changeTrackStatusAction('PLAYING', 0))
       } else {
         nextTrack = playlistReducer.tracks[index]
         dispatch(change(nextTrack, index))
+        dispatch(changeTrackStatusAction('PLAYING', index))
       }
     } else {
       const nextTrackIndex = getRandomArbitrary(0, playlistReducer.tracks.length)
       nextTrack = playlistReducer.tracks[nextTrackIndex]
       dispatch(change(nextTrack, nextTrackIndex))
+      dispatch(changeTrackStatusAction('PLAYING', nextTrackIndex))
     }
   }
 }

@@ -71,13 +71,17 @@ class PlayerContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if(this.props.drive.index === 0 && nextProps.drive.index != 0){
+      this.props.dispatch(changeTrackStatusAction('READY', 0)) //This needs some clarifications, there's an issue with sending zero value
+    }
+    if(nextProps.drive.index != this.props.drive.index) {
       if (this.props.drive.index) {
-        this.props.dispatch(changeTrackStatusAction('READY', 0)) //This needs some clarifications, there's an issue with sending zero value
         this.props.dispatch(changeTrackStatusAction('READY', this.props.drive.index))
       }
       if (nextProps.drive.index) {
         this.props.dispatch(changeTrackStatusAction('PLAYING', nextProps.drive.index))
       }
+    }
   }
 
   componentDidUpdate(nextProps) {
@@ -138,16 +142,12 @@ class PlayerContainer extends Component {
   }
 
   handleNext() {
-    this.props.dispatch(changeTrackStatusAction('READY', this.props.drive.index))
     this.props.dispatch(memoryChange({...this.props.memory, prev: this.props.drive.index}))
-    this.props.dispatch(changeTrackStatusAction('PLAYING', this.props.drive.index + 1))
     this.props.dispatch(next(this.props.drive.index + 1))
   }
 
   handlePrev() {
-    this.props.dispatch(changeTrackStatusAction('READY', this.props.drive.index))
     this.props.dispatch(memoryChange({...this.props.memory, prev: this.props.drive.index}))
-    this.props.dispatch(changeTrackStatusAction('PLAYING', this.props.drive.index - 1))
     this.props.dispatch(next(this.props.drive.index - 1))
   }
 
