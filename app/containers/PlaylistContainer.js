@@ -7,8 +7,7 @@ import {
   playTrackAction,
   stopTrackAction,
   downloadTrackAction,
-  saveTrackAction,
-  checkTrackStatusAction
+  saveTrackAction
 } from '../reducers/trackReducer'
 import {
   add,
@@ -55,7 +54,6 @@ const trackDispatchProperties =
         stopTrackAction,
         downloadTrackAction,
         saveTrackAction,
-        checkTrackStatusAction,
         move,
         deleteTrack
       }, index),

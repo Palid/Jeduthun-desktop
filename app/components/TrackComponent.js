@@ -3,13 +3,10 @@ import styles from './TrackComponent.css'
 import LoadingBar from '../components/LoadingBarComponent'
 
 class TrackComponent extends React.Component {
-  componentDidMount() {
-    if(this.props.checkTrackStatusAction){
-      this.props.checkTrackStatusAction(this.props.track, this.props.id)
-    }
-  }
   getLoadingState() {
-    if(this.props.track.status === 'READY' || this.props.track.status === 'PLAYING' || this.props.track.status === 'PAUSED'){
+    if(this.props.track.status === 'READY' ||
+      this.props.track.status === 'PLAYING' ||
+      this.props.track.status === 'PAUSED'){
       return 100
     } else if(this.props.track.loading){
       return this.props.track.loading
@@ -44,13 +41,14 @@ class TrackComponent extends React.Component {
     const loading = this.getLoadingState()
     const loadingBg = this.getLoadingBg()
     const nameStyle = this.getNameStyle()
+    const heading = `${props.id + 1}. ${props.track.title}`
     return(
       <div
       className={styles.track}
       onClick={() => props.playTrackAction(props.track, props.id)}
       ref={(ref) => { this.trackEl = ref }}>
         <h3 className={nameStyle}>
-          {props.track.title}
+          {heading}
         </h3>
         <LoadingBar
         parentWidth={this.trackEl ? this.trackEl.offsetWidth : 0}
@@ -68,7 +66,6 @@ TrackComponent.propTypes = {
   stopTrackAction: React.PropTypes.func,
   downloadTrackAction: React.PropTypes.func,
   saveTrackAction: React.PropTypes.func,
-  checkTrackStatusAction: React.PropTypes.func,
   move: React.PropTypes.func,
   deleteTrack: React.PropTypes.func,
 }

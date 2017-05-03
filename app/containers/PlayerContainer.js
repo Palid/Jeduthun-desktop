@@ -71,21 +71,18 @@ class PlayerContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.drive.index === 0 && nextProps.drive.index != 0){
-      this.props.dispatch(changeTrackStatusAction('READY', 0)) //This needs some clarifications, there's an issue with sending zero value
-    }
     if(nextProps.drive.index != this.props.drive.index) {
-      if (this.props.drive.index) {
-        this.props.dispatch(changeTrackStatusAction('READY', this.props.drive.index))
+      if (nextProps.drive.index != this.props.memory.prev) {
+        this.props.dispatch(memoryChange({...this.props.memory, prev: this.props.drive.index}))
       }
-      if (nextProps.drive.index) {
-        this.props.dispatch(changeTrackStatusAction('PLAYING', nextProps.drive.index))
+      if (typeof(this.props.drive.index) === 'number') {
+        this.props.dispatch(changeTrackStatusAction('READY', this.props.drive.index))
       }
     }
   }
 
   componentDidUpdate(nextProps) {
-    if(nextProps.drive != this.props.drive){
+    if(nextProps.drive !== this.props.drive){
       this.audioEl.play()
     }
   }
@@ -104,7 +101,7 @@ class PlayerContainer extends Component {
     this.props.dispatch(changeTrackStatusAction('READY', this.props.drive.index))
     this.props.dispatch(stop('STOP'))
     if (this.props.options.repeatAll) {
-      this.props.dispatch(next(this.props.drive.index + 1))
+      this.props.dispatch(next(this.props.drive.index + 1, false))
     }
   }
 
@@ -142,22 +139,26 @@ class PlayerContainer extends Component {
   }
 
   handleNext() {
-    this.props.dispatch(memoryChange({...this.props.memory, prev: this.props.drive.index}))
-    if (this.props.options.repeatOne) {
-      this.audioEl.load()
-      this.props.dispatch(next(this.props.drive.index))
-    } else {
-      this.props.dispatch(next(this.props.drive.index + 1))
+    if (typeof(this.props.drive.index) !== 'string') {
+      if (this.props.options.repeatOne) {
+        this.audioEl.load()
+        this.props.dispatch(next(this.props.drive.index, false))
+      } else {
+        this.props.dispatch(next(this.props.drive.index + 1, false))
+      }
     }
   }
 
   handlePrev() {
-    this.props.dispatch(memoryChange({...this.props.memory, prev: this.props.drive.index}))
-    if (this.props.options.repeatOne) {
-      this.audioEl.load()
-      this.props.dispatch(next(this.props.drive.index))
-    } else {
-      this.props.dispatch(next(this.props.drive.index - 1))
+    if (this.props.drive.index) {
+      if (this.props.options.repeatOne) {
+        this.audioEl.load()
+        this.props.dispatch(next(this.props.drive.index, false))
+      } else if (typeof(this.props.memory.prev) === 'number' && this.props.options.shuffle) {
+        this.props.dispatch(next(this.props.memory.prev, true))
+      } else {
+        this.props.dispatch(next(this.props.drive.index - 1, false))
+      }
     }
   }
 
@@ -229,8 +230,21 @@ class PlayerContainer extends Component {
     const repeatStatus = this.getRepeatStatus()
     const shuffleStatus = this.getShuffleStatus()
     const nowPlaying = props.drive ? <h1 className={styles.nowPlaying}>{props.drive.title}</h1> : ''
-    const playPauseButton = props.status === 'PAUSE' ? <button onClick={() => this.handlePlay()}>Play</button> : <button onClick={() => this.handlePause()}>Pause</button>
-    const muteButton = props.options.volume === 0 ? <button onClick={() => this.handleVolumeChange(1)}>unmute</button> : <button onClick={() => this.handleVolumeChange(0)}>mute</button>
+    const playPauseButton = props.status === 'PAUSE' ? 
+    <button onClick={() => this.handlePlay()}>
+      <svg>
+        
+      </svg>
+    </button> :
+    <button onClick={() => this.handlePause()}>
+      <svg width="17px" height="20px" viewBox="0 0 17 20">
+          <rect fillRule="evenodd" clipRule="evenodd" fill="#888131" width="6" height="20"/>
+          <rect x="11" fillRule="evenodd" clipRule="evenodd" fill="#888131" width="6" height="20"/>
+      </svg>
+    </button>
+    const muteButton = props.options.volume === 0 ? 
+    <button className={styles.controlsButton} onClick={() => this.handleVolumeChange(1)}>unmute</button> :
+    <button className={styles.controlsButton} onClick={() => this.handleVolumeChange(0)}>mute</button>
     const timerCount = this.prepareTimer()
     return(
     <div className={styles.player} ref={(ref) => { this.containerEl = ref }}>
@@ -262,9 +276,19 @@ class PlayerContainer extends Component {
         </div>
       </div>
       <div className={styles.controls}>
-        <button onClick={() => this.handlePrev()}>Prev</button>
+        <button onClick={() => this.handlePrev()}>
+          <svg width="14.914px" height="12px" viewBox="0 0 14.914 12">
+            <g transform="rotate(-180 7.456999778747559,5.999999999999999)">
+              <polygon stroke="null" id="svg_1" points="7.375,6.13 7.375,12 14.914,6 7.375,0 7.375,5.87 0,0 0,12  " fill="#888131"/>
+            </g>
+          </svg>
+        </button>
         {playPauseButton}
-        <button onClick={() => this.handleNext()}>Next</button>
+        <button onClick={() => this.handleNext()}>
+          <svg width="14.914px" height="12px" viewBox="0 0 14.914 12">
+              <polygon fill="#888131" points="7.375,6.13 7.375,12 14.914,6 7.375,0 7.375,5.87 0,0 0,12 	"/>
+          </svg>
+        </button>
       </div>
     </div>
   )}

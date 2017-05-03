@@ -46,31 +46,36 @@ export const change = (album, index) => ({
   album,
   index
 })
-export function next (index) {
+export function next (index, previous = false) {
   return (dispatch, getState) => {
     const { playlistReducer, playerReducer } = getState()
     let nextTrack = null
     if(!playlistReducer){
       return console.error('PLAYER ERROR: No playlist found')
     }
-    if(!playerReducer.options.shuffle) {
-      const lastTrack = playlistReducer.tracks.length === index ? true : false
-      if(lastTrack){
-        nextTrack = playlistReducer.tracks[0]
-        dispatch(change(nextTrack, 0))
-        dispatch(changeTrackStatusAction('PLAYING', 0))
+    if (typeof(index) === 'number') {
+      if(!playerReducer.options.shuffle || previous) {
+        const lastTrack = playlistReducer.tracks.length === index ? true : false
+        if(lastTrack){
+          nextTrack = playlistReducer.tracks[0]
+          dispatch(change(nextTrack, 0))
+          dispatch(changeTrackStatusAction('PLAYING', 0))
+        } else {
+          nextTrack = playlistReducer.tracks[index]
+          dispatch(change(nextTrack, index))
+          dispatch(changeTrackStatusAction('PLAYING', index))
+        }
+        if (previous) {
+          dispatch(memoryChange({...playerReducer.memory, prev: ''}))
+        }
       } else {
-        nextTrack = playlistReducer.tracks[index]
-        dispatch(change(nextTrack, index))
-        dispatch(changeTrackStatusAction('PLAYING', index))
+        const nextTrackIndex = getRandomArbitrary(0, playlistReducer.tracks.length)
+        nextTrack = playlistReducer.tracks[nextTrackIndex]
+        dispatch(change(nextTrack, nextTrackIndex))
+        dispatch(changeTrackStatusAction('PLAYING', nextTrackIndex))
       }
-    } else {
-      const nextTrackIndex = getRandomArbitrary(0, playlistReducer.tracks.length)
-      nextTrack = playlistReducer.tracks[nextTrackIndex]
-      dispatch(change(nextTrack, nextTrackIndex))
-      dispatch(changeTrackStatusAction('PLAYING', nextTrackIndex))
     }
-  }
+    }
 }
 
 const reducer = (state = playerDefaults, action) => {
