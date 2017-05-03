@@ -18,10 +18,10 @@ function checkLibrary() {
 function fileDownload(configuration) {
   return new Promise(function(resolve, reject) {
     const pully = new Pully()
-
+    console.log(configuration.path)
     const options = {
       url: configuration.remoteFile,
-      dir: './library',
+      dir: configuration.path,
       template: '${title}',
       preset: Presets.MP3,
       info: (format, cancel) => {

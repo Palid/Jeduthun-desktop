@@ -39,13 +39,14 @@ export function checkTrackStatusAction (track, index) {
     }
   }
 }
-export function downloadTrackAction (track, index) {
+export function downloadTrackAction (track, index, library) {
   return dispatch => {
     fileDownload({
         remoteFile: `${track.link}`,
         onProgress: function (received){
             dispatch(setDownloadStatusAction(received, index))
-        }
+        },
+        path: library,
     }).then(function(filePath) {
       if(filePath.status){
         let responseObject = {

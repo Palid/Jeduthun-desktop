@@ -4,8 +4,8 @@ import LoadingBar from '../components/LoadingBarComponent'
 
 class TrackComponent extends React.Component {
   componentDidMount() {
-    if(this.props.track && this.props.track.status === 'NEW' && this.props.checkTrackStatusAction){
-      this.props.checkTrackStatusAction(this.props.track, this.props.id)
+    if(this.props.track && this.props.track.status === 'NEW' && this.props.downloadTrackAction){
+      this.props.downloadTrackAction(this.props.track, this.props.id, this.props.library)
     }
   }
   getLoadingState() {

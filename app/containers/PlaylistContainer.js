@@ -36,7 +36,7 @@ class PlaylistContainer extends Component {
     return (
       <div className={styles.playlist}>
         {this.props.tracks.map((item, index) =>
-          <TrackComponent track={item} key={index} id={index}
+          <TrackComponent track={item} key={index} id={index} library={this.props.library}
           {...trackDispatchProperties(index)(this.props.dispatch)}/>
         )}
       </div>

@@ -11,15 +11,32 @@ class App extends Component {
     this.state = {
       leftVisible: false,
       rightVisible: true,
+      libraryDir: './library'
     }
     this.toggleSearch = this.toggleSearch.bind(this)
+    this.selectFolder = this.selectFolder.bind(this)
   }
   toggleSearch() {
     this.setState({leftVisible: !this.state.leftVisible})
   }
+  selectFolder(e) {
+    const theFiles = e.target.files;
+    const relativePath = theFiles[0].webkitRelativePath;
+    console.log('relativePath: ', relativePath)
+    const folder = relativePath.split("/");
+    console.log('folder: ', folder)
+    console.log('folder[0]:', folder[0]);
+  }
   render() {
     const wrapperLeftClass = this.state.leftVisible ? styles.mainWrapper__left : styles.mainWrapper__left__hidden
     const wrapperRightClass = this.state.leftVisible ? styles.mainWrapper__right : styles.mainWrapper__right__alone
+    const libraryButton = this.state.libraryDir ?
+    <button>
+      Change library directory
+    </button> :
+    <button>
+      Set library directory
+    </button>
     return (
       <div>
         <div className={styles.mainWrapper__sidebar}>
@@ -38,7 +55,7 @@ class App extends Component {
         </div>
         <div className={wrapperRightClass}>
           <PlayerContainer/>
-          <PlaylistContainer/>
+          <PlaylistContainer library={this.state.libraryDir}/>
         </div>
       </div>
     );
