@@ -3,11 +3,9 @@
   width: 100%;
   text-align: center;
 }
-
 .player audio {
   display: none;
 }
-
 .nowPlaying {
   font-size: 18px;
   font-family:'kayak_sanslight';
@@ -16,7 +14,6 @@
   padding: 20px 20px 5px 20px;
   margin: 0px;
 }
-
 .timer {
   display: inline-block;
   width: 100%;
@@ -29,23 +26,35 @@
   width: 100%;
   margin-bottom: 10px;
 }
-.optionsLeft {
+.optionsInner {
   float: left;
   width: 33.3%;
+}
+.optionsLeft {
+  composes: optionsInner;
   text-align: left;
 }
 .optionsCenter {
-  float: left;
-  width: 33.3%;
+  composes: optionsInner;
   text-align: center;
 }
 .optionsRight {
-  float: left;
-  width: 33.3%;
+  composes: optionsInner;
   text-align: right;
 }
 .controls {
-  display: inline-block;
-  width: 100%;
+  composes: optionsInner;
   margin-bottom: 20px;
+}
+.controlsButton {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #8c8c8c;
+  font-family: 'kayak_sanslight';
+  font-size: 12px;
+}
+.controlsButton b {
+  font-family: 'kayak_sansbold';
+  color: #88802b;
 }

@@ -51,7 +51,7 @@ export function next (index) {
     const { playlistReducer, playerReducer } = getState()
     let nextTrack = null
     if(!playlistReducer){
-      console.error('PLAYER ERROR: No playlist found')
+      return console.error('PLAYER ERROR: No playlist found')
     }
     if(!playerReducer.options.shuffle) {
       const lastTrack = playlistReducer.tracks.length === index ? true : false

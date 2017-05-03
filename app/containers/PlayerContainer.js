@@ -91,8 +91,8 @@ class PlayerContainer extends Component {
   }
 
   handlePlayEvent() {
-    this.props.dispatch(changeTrackStatusAction('PLAYING', this.props.drive.index))
     this.props.dispatch(start('PLAY'))
+    this.props.dispatch(changeTrackStatusAction('PLAYING', this.props.drive.index))
   }
 
   handlePauseEvent() {
@@ -143,12 +143,22 @@ class PlayerContainer extends Component {
 
   handleNext() {
     this.props.dispatch(memoryChange({...this.props.memory, prev: this.props.drive.index}))
-    this.props.dispatch(next(this.props.drive.index + 1))
+    if (this.props.options.repeatOne) {
+      this.audioEl.load()
+      this.props.dispatch(next(this.props.drive.index))
+    } else {
+      this.props.dispatch(next(this.props.drive.index + 1))
+    }
   }
 
   handlePrev() {
     this.props.dispatch(memoryChange({...this.props.memory, prev: this.props.drive.index}))
-    this.props.dispatch(next(this.props.drive.index - 1))
+    if (this.props.options.repeatOne) {
+      this.audioEl.load()
+      this.props.dispatch(next(this.props.drive.index))
+    } else {
+      this.props.dispatch(next(this.props.drive.index - 1))
+    }
   }
 
   handleVolumeChange(value) {
@@ -176,20 +186,20 @@ class PlayerContainer extends Component {
   getRepeatStatus() {
     const props = this.props
     if(props.options.repeatOne){
-      return 'repeat one'
+      return {__html: 'repeat: <b>one</b>'}
     } else if(props.options.repeatAll){
-      return 'repeat all'
+      return {__html: 'repeat: <b>all</b>'}
     } else if(!props.options.repeatOne && !props.options.repeatAll) {
-      return 'no repeat'
+      return {__html: 'repeat: <b>none</b>'}
     }
   }
 
   getShuffleStatus() {
     const props = this.props
     if(props.options.shuffle){
-      return 'shuffle: on'
+      return {__html: 'shuffle: <b>on</b>'}
     } else {
-      return 'shuffle: off'
+      return {__html: 'shuffle: <b>off</b>'}
     }
   }
 
@@ -234,10 +244,18 @@ class PlayerContainer extends Component {
       seek={(event) => this.handleSeek(event)}/>
       <div className={styles.options}>
         <div className={styles.optionsLeft}>
-          <button onClick={() => this.toggleRepeatMode()}>{repeatStatus}</button>
+          <button
+          className={styles.controlsButton}
+          onClick={() => this.toggleRepeatMode()}
+          dangerouslySetInnerHTML={repeatStatus}
+          ></button>
         </div>
         <div className={styles.optionsCenter}>
-          <button onClick={() => this.toggleShuffleMode()}>{shuffleStatus}</button>
+          <button
+          className={styles.controlsButton}
+          onClick={() => this.toggleShuffleMode()}
+          dangerouslySetInnerHTML={shuffleStatus}
+          ></button>
         </div>
         <div className={styles.optionsRight}>
           {muteButton}
