@@ -65,7 +65,8 @@ export const INITIAL_STATE = {
   albums: [],
   listConfiguration: {
     query: '',
-    pageInfo: {}
+    pageInfo: {},
+    visible: true
   },
 }
 

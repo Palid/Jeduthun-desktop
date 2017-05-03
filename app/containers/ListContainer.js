@@ -8,7 +8,8 @@ import {
   addAlbumAction,
   searchQueryAction,
   loadResultsPageAction,
-  addToPlaylistAction
+  addToPlaylistAction,
+  updateListSettingsAction
 } from '../reducers/listReducer'
 import AlbumContainer from '../components/AlbumComponent'
 import SearchContainer from './SearchContainer'
@@ -35,20 +36,31 @@ class ListContainer extends Component {
   handleAddingAlbum(album) {
     this.props.dispatch(addToPlaylistAction(album))
   }
-  render() { return(
-    <div className={styles.list}>
-      <SearchContainer 
-        searchQueryAction={this.handleSearch}
-        nextPageToken={this.props.listConfiguration.pageInfo.nextPageToken}
-        prevPageToken={this.props.listConfiguration.pageInfo.prevPageToken}
-      />
-      {this.props.albums.map((value, index) => 
-        <AlbumContainer album={value} key={index} addToPlaylistAction={this.handleAddingAlbum}/>
-      )}
-      <PaginationComponent
-        handlePageLoadNext={() => this.handleSearch(this.props.listConfiguration.query, this.prepareNavObj(this.props.listConfiguration.pageInfo.nextPageToken))}
-        handlePageLoadPrev={() => this.handleSearch(this.props.listConfiguration.query, this.prepareNavObj(this.props.listConfiguration.pageInfo.prevPageToken))}
-      />
+  render() {
+    return(
+    <div>
+      <div className={styles.list}>
+        <SearchContainer 
+          searchQueryAction={this.handleSearch}
+          nextPageToken={this.props.listConfiguration.pageInfo.nextPageToken}
+          prevPageToken={this.props.listConfiguration.pageInfo.prevPageToken}
+        />
+        {this.props.albums.length ? 
+          <PaginationComponent
+            handlePageLoadNext={() => this.handleSearch(this.props.listConfiguration.query, this.prepareNavObj(this.props.listConfiguration.pageInfo.nextPageToken))}
+            handlePageLoadPrev={() => this.handleSearch(this.props.listConfiguration.query, this.prepareNavObj(this.props.listConfiguration.pageInfo.prevPageToken))}
+          /> : ''
+        }
+        {this.props.albums.map((value, index) => 
+          <AlbumContainer album={value} key={index} addToPlaylistAction={this.handleAddingAlbum}/>
+        )}
+        {this.props.albums.length ? 
+          <PaginationComponent
+            handlePageLoadNext={() => this.handleSearch(this.props.listConfiguration.query, this.prepareNavObj(this.props.listConfiguration.pageInfo.nextPageToken))}
+            handlePageLoadPrev={() => this.handleSearch(this.props.listConfiguration.query, this.prepareNavObj(this.props.listConfiguration.pageInfo.prevPageToken))}
+          /> : ''
+        }
+      </div>
     </div>
   )}
 }

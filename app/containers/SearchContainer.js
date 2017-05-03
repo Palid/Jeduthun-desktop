@@ -130,11 +130,6 @@ class SearchContainer extends React.Component {
           </div>
           <input type="submit" value="Submit" className={styles.buttonSubmit}/>
         </form>
-        
-        <PaginationComponent
-          handlePageLoadNext={() => this.handleSubmit(null, 'next')}
-          handlePageLoadPrev={() => this.handleSubmit(null, 'prev')}
-        />
       </div>
     )
   }

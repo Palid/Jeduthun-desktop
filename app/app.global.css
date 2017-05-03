@@ -31,8 +31,3 @@ body {
   background-color: white;
   font-family: 'kayak_sansregular', Arial, Helvetica, Helvetica Neue, serif;
 }
-
-.main-wrapper__left, .main-wrapper__right {
-  float: left;
-  width: 50%;
-}

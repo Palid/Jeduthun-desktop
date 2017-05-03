@@ -231,12 +231,12 @@ class PlayerContainer extends Component {
     const shuffleStatus = this.getShuffleStatus()
     const nowPlaying = props.drive ? <h1 className={styles.nowPlaying}>{props.drive.title}</h1> : ''
     const playPauseButton = props.status === 'PAUSE' ? 
-    <button onClick={() => this.handlePlay()}>
-      <svg>
-        
+    <button className={styles.controlsButton} onClick={() => this.handlePlay()}>
+      <svg width="17px" height="20px" viewBox="0 0 17 20">
+        <polygon fillRule="evenodd" clipRule="evenodd" fill="#888131" points="17,10 0,20 0,0 "/>
       </svg>
     </button> :
-    <button onClick={() => this.handlePause()}>
+    <button className={styles.controlsButton} onClick={() => this.handlePause()}>
       <svg width="17px" height="20px" viewBox="0 0 17 20">
           <rect fillRule="evenodd" clipRule="evenodd" fill="#888131" width="6" height="20"/>
           <rect x="11" fillRule="evenodd" clipRule="evenodd" fill="#888131" width="6" height="20"/>
@@ -275,20 +275,26 @@ class PlayerContainer extends Component {
           {muteButton}
         </div>
       </div>
-      <div className={styles.controls}>
-        <button onClick={() => this.handlePrev()}>
+      <div className={styles.options}>
+        <div className={styles.optionsRight}>
+        <button className={styles.controlsButton} onClick={() => this.handlePrev()}>
           <svg width="14.914px" height="12px" viewBox="0 0 14.914 12">
             <g transform="rotate(-180 7.456999778747559,5.999999999999999)">
               <polygon stroke="null" id="svg_1" points="7.375,6.13 7.375,12 14.914,6 7.375,0 7.375,5.87 0,0 0,12  " fill="#888131"/>
             </g>
           </svg>
         </button>
-        {playPauseButton}
-        <button onClick={() => this.handleNext()}>
-          <svg width="14.914px" height="12px" viewBox="0 0 14.914 12">
-              <polygon fill="#888131" points="7.375,6.13 7.375,12 14.914,6 7.375,0 7.375,5.87 0,0 0,12 	"/>
-          </svg>
-        </button>
+        </div>
+        <div className={styles.optionsCenter}>
+          {playPauseButton}
+        </div>
+        <div className={styles.optionsLeft}>
+          <button className={styles.controlsButton} onClick={() => this.handleNext()}>
+            <svg width="14.914px" height="12px" viewBox="0 0 14.914 12">
+                <polygon fill="#888131" points="7.375,6.13 7.375,12 14.914,6 7.375,0 7.375,5.87 0,0 0,12 	"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   )}

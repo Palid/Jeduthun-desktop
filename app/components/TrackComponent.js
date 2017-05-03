@@ -3,6 +3,11 @@ import styles from './TrackComponent.css'
 import LoadingBar from '../components/LoadingBarComponent'
 
 class TrackComponent extends React.Component {
+  componentDidMount() {
+    if(this.props.track && this.props.track.status === 'NEW' && this.props.checkTrackStatusAction){
+      this.props.checkTrackStatusAction(this.props.track, this.props.id)
+    }
+  }
   getLoadingState() {
     if(this.props.track.status === 'READY' ||
       this.props.track.status === 'PLAYING' ||
@@ -66,6 +71,7 @@ TrackComponent.propTypes = {
   stopTrackAction: React.PropTypes.func,
   downloadTrackAction: React.PropTypes.func,
   saveTrackAction: React.PropTypes.func,
+  checkTrackStatusAction: React.PropTypes.func,
   move: React.PropTypes.func,
   deleteTrack: React.PropTypes.func,
 }

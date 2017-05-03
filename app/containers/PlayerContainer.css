@@ -2,6 +2,7 @@
   float: left;
   width: 100%;
   text-align: center;
+  box-sizing: border-box;
 }
 .player audio {
   display: none;
@@ -54,6 +55,7 @@
   color: #8c8c8c;
   font-family: 'kayak_sanslight';
   font-size: 12px;
+  cursor: pointer;
 }
 .controlsButton b {
   font-family: 'kayak_sansbold';
