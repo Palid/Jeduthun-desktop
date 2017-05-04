@@ -31,6 +31,10 @@ export default {
       path.join(__dirname, 'app'),
       'node_modules',
     ],
+    // Fix for FLUENTFFMPEG_COV not loading stuff correctly.
+    alias: {
+      'fluent-ffmpeg': path.resolve(__dirname, 'node_modules/fluent-ffmpeg/lib/fluent-ffmpeg')
+    },
   },
 
   plugins: [
