@@ -4,6 +4,7 @@ import ListContainer from './ListContainer'
 import PlayerContainer from './PlayerContainer'
 import PlaylistContainer from './PlaylistContainer'
 import styles from './App.css'
+const {dialog} = require('electron').remote
 
 class App extends Component {
   constructor(props) {
@@ -19,24 +20,26 @@ class App extends Component {
   toggleSearch() {
     this.setState({leftVisible: !this.state.leftVisible})
   }
-  selectFolder(e) {
-    const theFiles = e.target.files;
-    const relativePath = theFiles[0].webkitRelativePath;
-    console.log('relativePath: ', relativePath)
-    const folder = relativePath.split("/");
-    console.log('folder: ', folder)
-    console.log('folder[0]:', folder[0]);
+  selectFolder() {
+    dialog.showOpenDialog({
+      title:"Select a folder",
+      properties: ["openDirectory"]
+    }, (folderPaths) => {
+      // folderPaths is an array that contains all the selected paths
+      if (folderPaths === undefined) {
+        console.log("No destination folder selected")
+        return
+      } else {
+        this.setState({libraryDir: folderPaths[0]})
+      }
+    })
   }
   render() {
     const wrapperLeftClass = this.state.leftVisible ? styles.mainWrapper__left : styles.mainWrapper__left__hidden
     const wrapperRightClass = this.state.leftVisible ? styles.mainWrapper__right : styles.mainWrapper__right__alone
-    const libraryButton = this.state.libraryDir ?
-    <button>
-      Change library directory
-    </button> :
-    <button>
-      Set library directory
-    </button>
+    const libraryButton = this.state.libraryDir ? 
+      <button onClick={() => this.selectFolder()}>Load folder</button> :
+      <button onClick={() => this.selectFolder()}>Select folder</button>
     return (
       <div>
         <div className={styles.mainWrapper__sidebar}>
@@ -56,6 +59,9 @@ class App extends Component {
         <div className={wrapperRightClass}>
           <PlayerContainer/>
           <PlaylistContainer library={this.state.libraryDir}/>
+          <div className={styles.libraryConfig}>
+            {libraryButton}
+          </div>
         </div>
       </div>
     );

@@ -5,6 +5,7 @@ import MenuBuilder from './menu';
 let mainWindow = null;
 
 if (process.env.NODE_ENV === 'production') {
+  require('electron-debug')(true); // eslint-disable-line global-require
   const sourceMapSupport = require('source-map-support'); // eslint-disable-line
   sourceMapSupport.install();
 }
@@ -57,6 +58,7 @@ app.on('ready', async () => {
       throw new Error('"mainWindow" is not defined');
     }
     mainWindow.show();
+    mainWindow.openDevTools()
     mainWindow.focus();
   });
 

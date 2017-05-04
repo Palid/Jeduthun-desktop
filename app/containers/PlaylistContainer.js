@@ -26,9 +26,9 @@ class PlaylistContainer extends Component {
     super(props)
   }
 
-  componentDidMount(nextProps) {
-    if(!nextProps){
-      this.props.dispatch(loadExistingFiles())
+  componentWillReceiveProps(nextProps) {
+    if(this.props.library !== nextProps.library){
+      this.props.dispatch(loadExistingFiles(nextProps.library))
     }
   }
 

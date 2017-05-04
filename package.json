@@ -178,6 +178,7 @@
     "classnames": "^2.2.5",
     "electron-debug": "^1.1.0",
     "extract-text-webpack-plugin": "^2.0.0",
+    "fluent-ffmpeg": "^2.1.2",
     "font-awesome": "^4.7.0",
     "immutability-helper": "^2.1.2",
     "pully": "^2.1.4",
@@ -189,7 +190,8 @@
     "redux-thunk": "^2.2.0",
     "request": "^2.81.0",
     "source-map-support": "^0.4.10",
-    "youtube-search": "^1.0.8"
+    "youtube-search": "^1.0.9",
+    "ytdl-core": "^0.13.2"
   },
   "devEngines": {
     "node": ">=6.x",

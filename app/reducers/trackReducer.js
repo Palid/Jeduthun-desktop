@@ -1,7 +1,7 @@
 // @flow
 import update from 'immutability-helper'
 import { change } from './playerReducer'
-import {fileDownload, getAudioPath} from '../utils/fileUtils'
+import {fileDownload} from '../utils/fileUtils'
 
 const PLAY_TRACK = 'tracks/PLAY_TRACK'
 const DOWNLOAD_TRACK = 'tracks/DOWNLOAD_TRACK'
@@ -56,8 +56,10 @@ export function downloadTrackAction (track, index, library) {
         dispatch(saveTrackAction(responseObject, index))
         dispatch(changeTrackStatusAction('READY', index))
       } else {
-        console.error('file download error')
+        console.error(filePath)
       }
+    }).catch(function(error) {
+      console.log(error)
     })
   }
 }

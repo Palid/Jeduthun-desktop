@@ -32,10 +32,10 @@ export function addToPlaylistAction (album) {
   }
 }
 
-export function prepareAlbumAction (album) {
+export function prepareAlbumAction (album, count, max) {
   return dispatch => {
     getYtLength(album.id, youtubeSearchConfig.key)
-    .then(function(duration){
+    .then((duration) => {
       dispatch(addAlbumAction({
         cover: album.thumbnails.high,
         id: album.id,
@@ -44,6 +44,9 @@ export function prepareAlbumAction (album) {
         link: album.link,
         duration: duration
       }))
+      if(count + 1 === max) {
+        dispatch(updateListSettingsAction({loading: false}))
+      }
     })
   }
 }
@@ -51,11 +54,12 @@ export function prepareAlbumAction (album) {
 export function searchQueryAction (query, options) {
   return dispatch => {
     dispatch(clearListAction())
+    dispatch(updateListSettingsAction({loading: true}))
     searchYoutube(query, options, function(err, results, pageInfo){
       if(err) return console.error(err)
       dispatch(updateListSettingsAction({pageInfo: pageInfo, query: query}))
       results.forEach(function (item, i) {
-        dispatch(prepareAlbumAction(item))
+        dispatch(prepareAlbumAction(item, i, results.length))
       })
     })
   }

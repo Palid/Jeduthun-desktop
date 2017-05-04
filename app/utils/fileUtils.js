@@ -8,17 +8,17 @@ const { Pully, Presets } = require('pully')
 
 const LIBRARY_PATH = './library/'
 
-function checkLibrary() {
+function checkLibrary(libraryPath) {
+  let library = libraryPath ? libraryPath : LIBRARY_PATH
   return new Promise(function (resolve, reject) {
     let output = null
-    fs.readdir(LIBRARY_PATH, (err, files) => { resolve(files) })
+    fs.readdir(library, (err, files) => { resolve(files) })
   })
 }
 
 function fileDownload(configuration) {
   return new Promise(function(resolve, reject) {
     const pully = new Pully()
-    console.log(configuration.path)
     const options = {
       url: configuration.remoteFile,
       dir: configuration.path,
@@ -41,7 +41,7 @@ function fileDownload(configuration) {
       console.log(`Download Complete: "${results.path}"`);
       resolve({status: true, path: results.path})
     })
-    .catch(err => resolve({status: false}))
+    .catch(err => resolve({error: err, status: false}))
   })
 }
 
@@ -85,14 +85,8 @@ function getRandomArbitrary(min, max) {
   return Math.trunc(Math.random() * (max - min) + min)
 }
 
-const getAppRoutePath = _ => path.resolve(path.dirname(global.require.main.filename), '../')
-
-const getAudioPath = audioPath => path.resolve(getAppRoutePath(), LIBRARY_PATH, audioPath)
-
 export default {
   fileDownload,
-  getAppRoutePath,
-  getAudioPath,
   getYtLength,
   checkLibrary,
   getRandomArbitrary
